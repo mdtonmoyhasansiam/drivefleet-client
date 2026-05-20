@@ -1,7 +1,21 @@
-export default function AddCarPage() {
+"use client";
+
+import PrivateRoute
+  from "@/components/PrivateRoute";
+
+const AddCarPage = () => {
+
   return (
-    <div>
-      <h1>Add Car Page</h1>
-    </div>
+    <PrivateRoute>
+
+      <div className="p-10">
+        <h1 className="text-4xl font-bold">
+          Add Car Page
+        </h1>
+      </div>
+
+    </PrivateRoute>
   );
-}
+};
+
+export default AddCarPage;
