@@ -1,22 +1,34 @@
 import "./globals.css";
-import Navbar from "../components/Navbar";
-import Footer from "../components/Footer";
+
+import { Toaster } from "react-hot-toast";
+
+import AuthProvider from "@/providers/AuthProvider";
 
 export const metadata = {
   title: "DriveFleet",
-  description: "Car Rental Platform",
+  description:
+    "Car Rental Platform",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout({
+  children,
+}) {
+
   return (
     <html lang="en">
+
       <body>
-        <Navbar />
-        <main className="min-h-screen">
+
+        <AuthProvider>
+
           {children}
-        </main>
-        <Footer />
+
+          <Toaster />
+
+        </AuthProvider>
+
       </body>
+
     </html>
   );
 }
