@@ -1,13 +1,12 @@
 import "./globals.css";
 
-import { Toaster } from "react-hot-toast";
-
-import AuthProvider from "@/providers/AuthProvider";
+import AuthProvider
+  from "@/providers/AuthProvider";
 
 export const metadata = {
   title: "DriveFleet",
   description:
-    "Car Rental Platform",
+    "Car Rental Application",
 };
 
 export default function RootLayout({
@@ -20,11 +19,7 @@ export default function RootLayout({
       <body>
 
         <AuthProvider>
-
           {children}
-
-          <Toaster />
-
         </AuthProvider>
 
       </body>

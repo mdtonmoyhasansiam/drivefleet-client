@@ -1,10 +1,10 @@
 "use client";
 
-import {
-  useContext,
-} from "react";
+import { useContext }
+  from "react";
 
-import AuthContext from "@/context/AuthContext";
+import { AuthContext }
+  from "@/providers/AuthProvider";
 
 const useAuth = () => {
 

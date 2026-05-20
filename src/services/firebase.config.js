@@ -1,19 +1,17 @@
 import { initializeApp } from "firebase/app";
 
-import { getAuth } from "firebase/auth";
+import { getAuth }
+  from "firebase/auth";
 
 const firebaseConfig = {
-
   apiKey:
     process.env.NEXT_PUBLIC_apiKey,
 
   authDomain:
-    process.env
-      .NEXT_PUBLIC_authDomain,
+    process.env.NEXT_PUBLIC_authDomain,
 
   projectId:
-    process.env
-      .NEXT_PUBLIC_projectId,
+    process.env.NEXT_PUBLIC_projectId,
 
   storageBucket:
     process.env
@@ -24,12 +22,12 @@ const firebaseConfig = {
       .NEXT_PUBLIC_messagingSenderId,
 
   appId:
-    process.env
-      .NEXT_PUBLIC_appId,
+    process.env.NEXT_PUBLIC_appId,
 };
 
 const app =
   initializeApp(firebaseConfig);
 
-export const auth =
-  getAuth(app);
+const auth = getAuth(app);
+
+export default auth;
