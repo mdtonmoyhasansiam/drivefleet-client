@@ -13,6 +13,9 @@ import Navbar from "@/components/Navbar";
 
 import Footer from "@/components/Footer";
 
+import LoadingSpinner
+  from "@/components/LoadingSpinner";
+
 import useAuth from "@/hooks/useAuth";
 
 import PrivateRoute from "@/routes/PrivateRoute";
@@ -24,6 +27,11 @@ const MyCarsPage = () => {
 
   const [cars, setCars] =
     useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+
 
   useEffect(() => {
 
@@ -40,6 +48,14 @@ const MyCarsPage = () => {
         .then(data => {
 
           setCars(data);
+
+          setLoading(false);
+        })
+        .catch(error => {
+
+          console.log(error);
+
+          setLoading(false);
         });
     }
 
@@ -128,6 +144,15 @@ const MyCarsPage = () => {
 
 
 
+  if (loading) {
+
+    return (
+      <LoadingSpinner />
+    );
+  }
+
+
+
   return (
 
     <PrivateRoute>
@@ -160,148 +185,184 @@ const MyCarsPage = () => {
 
 
 
-          <div
-            className="
-            grid
-            grid-cols-1
-            md:grid-cols-2
-            lg:grid-cols-3
-            gap-8
-          "
-          >
+          {
+            cars.length === 0 ? (
 
-            {
-              cars.map(
-                car => (
+              <div
+                className="
+                text-center
+                mt-20
+              "
+              >
 
-                  <div
-                    key={car._id}
-                    className="
-                    border
-                    rounded-xl
-                    overflow-hidden
-                    shadow-lg
-                  "
-                  >
+                <h2
+                  className="
+                  text-3xl
+                  font-bold
+                  mb-3
+                "
+                >
+                  No Cars Found
+                </h2>
 
-                    <img
-                      src={car.image}
-                      alt={car.carName}
-                      className="
-                      w-full
-                      h-[220px]
-                      object-cover
-                    "
-                    />
+                <p
+                  className="
+                  text-gray-500
+                "
+                >
+                  You have not added any cars yet.
+                </p>
 
+              </div>
 
+            ) : (
 
-                    <div
-                      className="
-                      p-5
-                    "
-                    >
+              <div
+                className="
+                grid
+                grid-cols-1
+                md:grid-cols-2
+                lg:grid-cols-3
+                gap-8
+              "
+              >
 
-                      <h2
-                        className="
-                        text-2xl
-                        font-bold
-                        mb-3
-                      "
-                      >
-                        {
-                          car.carName
-                        }
-                      </h2>
-
-
-
-                      <p
-                        className="
-                        mb-2
-                      "
-                      >
-                        Type:
-                        {" "}
-                        {
-                          car.carType
-                        }
-                      </p>
-
-
-
-                      <p
-                        className="
-                        mb-2
-                      "
-                      >
-                        Price:
-                        {" "}
-                        $
-                        {
-                          car.dailyRentalPrice
-                        }
-                      </p>
-
-
+                {
+                  cars.map(
+                    car => (
 
                       <div
+                        key={car._id}
                         className="
-                        flex
-                        gap-3
-                        mt-5
+                        border
+                        rounded-xl
+                        overflow-hidden
+                        shadow-lg
+                        hover:shadow-2xl
+                        duration-300
                       "
                       >
 
-                        <Link
-                          href={`/update-car/${car._id}`}
-                        >
-
-                          <button
-                            className="
-                            bg-blue-500
-                            text-white
-                            px-4
-                            py-2
-                            rounded-lg
-                            cursor-pointer
-                          "
-                          >
-                            Update
-                          </button>
-
-                        </Link>
-
-
-
-                        <button
-                          onClick={() =>
-                            handleDelete(
-                              car._id
-                            )
-                          }
+                        <img
+                          src={car.image}
+                          alt={car.carName}
                           className="
-                          bg-red-500
-                          text-white
-                          px-4
-                          py-2
-                          rounded-lg
-                          cursor-pointer
+                          w-full
+                          h-[220px]
+                          object-cover
+                        "
+                        />
+
+
+
+                        <div
+                          className="
+                          p-5
                         "
                         >
-                          Delete
-                        </button>
+
+                          <h2
+                            className="
+                            text-2xl
+                            font-bold
+                            mb-3
+                          "
+                          >
+                            {
+                              car.carName
+                            }
+                          </h2>
+
+
+
+                          <p
+                            className="
+                            mb-2
+                          "
+                          >
+                            Type:
+                            {" "}
+                            {
+                              car.carType
+                            }
+                          </p>
+
+
+
+                          <p
+                            className="
+                            mb-2
+                          "
+                          >
+                            Price:
+                            {" "}
+                            $
+                            {
+                              car.dailyRentalPrice
+                            }
+                          </p>
+
+
+
+                          <div
+                            className="
+                            flex
+                            gap-3
+                            mt-5
+                          "
+                          >
+
+                            <Link
+                              href={`/update-car/${car._id}`}
+                            >
+
+                              <button
+                                className="
+                                bg-blue-500
+                                text-white
+                                px-4
+                                py-2
+                                rounded-lg
+                                cursor-pointer
+                              "
+                              >
+                                Update
+                              </button>
+
+                            </Link>
+
+
+
+                            <button
+                              onClick={() =>
+                                handleDelete(
+                                  car._id
+                                )
+                              }
+                              className="
+                              bg-red-500
+                              text-white
+                              px-4
+                              py-2
+                              rounded-lg
+                              cursor-pointer
+                            "
+                            >
+                              Delete
+                            </button>
+
+                          </div>
+
+                        </div>
 
                       </div>
+                    )
+                  )
+                }
 
-                    </div>
-
-                  </div>
-                )
-              )
-            }
-
-          </div>
+              </div>
+            )
+          }
 
         </div>
 
