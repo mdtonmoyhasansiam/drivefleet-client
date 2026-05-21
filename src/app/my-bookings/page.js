@@ -9,9 +9,10 @@ import Navbar from "@/components/Navbar";
 
 import Footer from "@/components/Footer";
 
-import useAuth from "@/hooks/useAuth";
+import LoadingSpinner
+  from "@/components/LoadingSpinner";
 
-import PrivateRoute from "@/routes/PrivateRoute";
+import useAuth from "@/hooks/useAuth";
 
 const MyBookingsPage = () => {
 
@@ -20,6 +21,11 @@ const MyBookingsPage = () => {
 
   const [bookings, setBookings] =
     useState([]);
+
+  const [loading, setLoading] =
+    useState(true);
+
+
 
   useEffect(() => {
 
@@ -36,6 +42,14 @@ const MyBookingsPage = () => {
         .then(data => {
 
           setBookings(data);
+
+          setLoading(false);
+        })
+        .catch(error => {
+
+          console.log(error);
+
+          setLoading(false);
         });
     }
 
@@ -43,131 +57,172 @@ const MyBookingsPage = () => {
 
 
 
+  if (loading) {
+
+    return (
+      <LoadingSpinner />
+    );
+  }
+
+
+
   return (
 
-    <PrivateRoute>
+    <div>
 
-      <div>
-
-        <Navbar />
+      <Navbar />
 
 
 
-        <div
+      <div
+        className="
+        max-w-7xl
+        mx-auto
+        py-10
+        px-5
+      "
+      >
+
+        <h1
           className="
-          max-w-7xl
-          mx-auto
-          py-10
-          px-5
+          text-4xl
+          font-bold
+          mb-8
+          text-center
         "
         >
-
-          <h1
-            className="
-            text-4xl
-            font-bold
-            mb-8
-            text-center
-          "
-          >
-            My Bookings
-          </h1>
+          My Bookings
+        </h1>
 
 
 
-          <div
-            className="
-            grid
-            grid-cols-1
-            md:grid-cols-2
-            lg:grid-cols-3
-            gap-8
-          "
-          >
+        {
+          bookings.length === 0 ? (
 
-            {
-              bookings.map(
-                booking => (
+            <div
+              className="
+              text-center
+              mt-20
+            "
+            >
 
-                  <div
-                    key={
-                      booking._id
-                    }
-                    className="
-                    border
-                    rounded-xl
-                    overflow-hidden
-                    shadow-lg
-                  "
-                  >
+              <h2
+                className="
+                text-3xl
+                font-bold
+                mb-3
+              "
+              >
+                No Bookings Found
+              </h2>
 
-                    <img
-                      src={
-                        booking.image
-                      }
-                      alt={
-                        booking.carName
-                      }
-                      className="
-                      w-full
-                      h-[220px]
-                      object-cover
-                    "
-                    />
+              <p
+                className="
+                text-gray-500
+              "
+              >
+                You have not booked any cars yet.
+              </p>
 
+            </div>
 
+          ) : (
+
+            <div
+              className="
+              grid
+              grid-cols-1
+              md:grid-cols-2
+              lg:grid-cols-3
+              gap-8
+            "
+            >
+
+              {
+                bookings.map(
+                  booking => (
 
                     <div
+                      key={
+                        booking._id
+                      }
                       className="
-                      p-5
+                      border
+                      rounded-xl
+                      overflow-hidden
+                      shadow-lg
+                      hover:shadow-2xl
+                      duration-300
                     "
                     >
 
-                      <h2
-                        className="
-                        text-2xl
-                        font-bold
-                        mb-3
-                      "
-                      >
-                        {
+                      <img
+                        src={
+                          booking.image
+                        }
+                        alt={
                           booking.carName
                         }
-                      </h2>
-
-
-
-                      <p
                         className="
-                        text-lg
+                        w-full
+                        h-[220px]
+                        object-cover
+                      "
+                      />
+
+
+
+                      <div
+                        className="
+                        p-5
                       "
                       >
-                        Price:
-                        {" "}
-                        $
-                        {
-                          booking.price
-                        }
-                      </p>
+
+                        <h2
+                          className="
+                          text-2xl
+                          font-bold
+                          mb-3
+                        "
+                        >
+                          {
+                            booking.carName
+                          }
+                        </h2>
+
+
+
+                        <p
+                          className="
+                          text-lg
+                        "
+                        >
+                          Price:
+                          {" "}
+                          $
+                          {
+                            booking.price
+                          }
+                        </p>
+
+                      </div>
 
                     </div>
-
-                  </div>
+                  )
                 )
-              )
-            }
+              }
 
-          </div>
-
-        </div>
-
-
-
-        <Footer />
+            </div>
+          )
+        }
 
       </div>
 
-    </PrivateRoute>
+
+
+      <Footer />
+
+    </div>
   );
 };
 
