@@ -56,12 +56,48 @@ const RegisterPage = () => {
 
 
 
+      // PASSWORD VALIDATION
+
       if (
         password.length < 6
       ) {
 
         toast.error(
           "Password must be at least 6 characters"
+        );
+
+        setLoading(false);
+
+        return;
+      }
+
+
+
+      if (
+        !/[A-Z]/.test(
+          password
+        )
+      ) {
+
+        toast.error(
+          "Password must contain at least one uppercase letter"
+        );
+
+        setLoading(false);
+
+        return;
+      }
+
+
+
+      if (
+        !/[a-z]/.test(
+          password
+        )
+      ) {
+
+        toast.error(
+          "Password must contain at least one lowercase letter"
         );
 
         setLoading(false);
@@ -89,7 +125,14 @@ const RegisterPage = () => {
 
         form.reset();
 
-        router.push("/");
+
+
+        // REQUIREMENT:
+        // Redirect to Login Page
+
+        router.push(
+          "/login"
+        );
 
       } catch (error) {
 
@@ -135,6 +178,11 @@ const RegisterPage = () => {
         toast.success(
           "Google Login Successful"
         );
+
+
+
+        // REQUIREMENT:
+        // Google login → Home page
 
         router.push("/");
 
