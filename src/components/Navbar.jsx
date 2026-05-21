@@ -145,6 +145,9 @@ const Navbar = () => {
               px-4
               py-2
               rounded-lg
+              cursor-pointer
+              hover:bg-red-600
+              duration-300
             "
             >
               Logout
