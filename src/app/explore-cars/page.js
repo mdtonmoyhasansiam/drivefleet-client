@@ -16,10 +16,18 @@ const ExploreCarsPage = () => {
   const [cars, setCars] =
     useState([]);
 
+  const [search, setSearch] =
+    useState("");
+
+  const [type, setType] =
+    useState("");
+
+
+
   useEffect(() => {
 
     fetch(
-      "http://localhost:5000/cars"
+      `http://localhost:5000/search-cars?search=${search}&type=${type}`
     )
       .then(res => res.json())
       .then(data => {
@@ -27,7 +35,9 @@ const ExploreCarsPage = () => {
         setCars(data);
       });
 
-  }, []);
+  }, [search, type]);
+
+
 
   return (
 
@@ -48,9 +58,9 @@ const ExploreCarsPage = () => {
 
         <h1
           className="
-          text-4xl
+          text-5xl
           font-bold
-          mb-8
+          mb-10
           text-center
         "
         >
@@ -59,122 +69,224 @@ const ExploreCarsPage = () => {
 
 
 
+        {/* SEARCH & FILTER */}
+
         <div
           className="
-          grid
-          grid-cols-1
-          md:grid-cols-2
-          lg:grid-cols-3
-          gap-8
+          flex
+          flex-col
+          md:flex-row
+          gap-5
+          mb-10
         "
         >
 
-          {
-            cars.map(car => (
-
-              <div
-                key={car._id}
-                className="
-                border
-                rounded-xl
-                overflow-hidden
-                shadow-lg
-              "
-              >
-
-                <img
-                  src={car.image}
-                  alt={car.carName}
-                  className="
-                  w-full
-                  h-[220px]
-                  object-cover
-                "
-                />
+          <input
+            type="text"
+            placeholder="Search by car name..."
+            value={search}
+            onChange={e =>
+              setSearch(
+                e.target.value
+              )
+            }
+            className="
+            border
+            p-3
+            rounded-lg
+            w-full
+          "
+          />
 
 
 
-                <div
-                  className="
-                  p-5
-                "
-                >
+          <select
+            value={type}
+            onChange={e =>
+              setType(
+                e.target.value
+              )
+            }
+            className="
+            border
+            p-3
+            rounded-lg
+            w-full
+            md:w-[250px]
+          "
+          >
 
-                  <h2
-                    className="
-                    text-2xl
-                    font-bold
-                    mb-2
-                  "
-                  >
-                    {car.carName}
-                  </h2>
+            <option value="">
+              All Types
+            </option>
 
+            <option value="SUV">
+              SUV
+            </option>
 
+            <option value="Sedan">
+              Sedan
+            </option>
 
-                  <p
-                    className="
-                    mb-2
-                  "
-                  >
-                    Type:
-                    {" "}
-                    {car.carType}
-                  </p>
+            <option value="Sports">
+              Sports
+            </option>
 
+            <option value="Luxury">
+              Luxury
+            </option>
 
-
-                  <p
-                    className="
-                    mb-2
-                  "
-                  >
-                    Location:
-                    {" "}
-                    {car.location}
-                  </p>
-
-
-
-                  <p
-                    className="
-                    mb-4
-                  "
-                  >
-                    Price:
-                    {" "}
-                    $
-                    {car.dailyRentalPrice}
-                    /day
-                  </p>
-
-
-
-                  <Link
-                    href={`/cars/${car._id}`}
-                  >
-
-                    <button
-                      className="
-                      bg-black
-                      text-white
-                      px-5
-                      py-2
-                      rounded-lg
-                    "
-                    >
-                      View Details
-                    </button>
-
-                  </Link>
-
-                </div>
-
-              </div>
-            ))
-          }
+          </select>
 
         </div>
+
+
+
+        {/* CARS */}
+
+        {
+          cars.length === 0 ? (
+
+            <div
+              className="
+              text-center
+              text-2xl
+              font-semibold
+              py-20
+            "
+            >
+              No Cars Found
+            </div>
+
+          ) : (
+
+            <div
+              className="
+              grid
+              grid-cols-1
+              md:grid-cols-2
+              lg:grid-cols-3
+              gap-8
+            "
+            >
+
+              {
+                cars.map(car => (
+
+                  <div
+                    key={car._id}
+                    className="
+                    border
+                    rounded-2xl
+                    overflow-hidden
+                    shadow-lg
+                    hover:scale-105
+                    duration-300
+                    bg-white
+                  "
+                  >
+
+                    <img
+                      src={car.image}
+                      alt={car.carName}
+                      className="
+                      w-full
+                      h-[240px]
+                      object-cover
+                    "
+                    />
+
+
+
+                    <div
+                      className="
+                      p-5
+                    "
+                    >
+
+                      <h2
+                        className="
+                        text-3xl
+                        font-bold
+                        mb-3
+                      "
+                      >
+                        {car.carName}
+                      </h2>
+
+
+
+                      <p
+                        className="
+                        mb-2
+                        text-lg
+                      "
+                      >
+                        Type:
+                        {" "}
+                        {car.carType}
+                      </p>
+
+
+
+                      <p
+                        className="
+                        mb-2
+                        text-lg
+                      "
+                      >
+                        Location:
+                        {" "}
+                        {car.location}
+                      </p>
+
+
+
+                      <p
+                        className="
+                        mb-5
+                        text-lg
+                      "
+                      >
+                        Price:
+                        {" "}
+                        $
+                        {car.dailyRentalPrice}
+                        /day
+                      </p>
+
+
+
+                      <Link
+                        href={`/cars/${car._id}`}
+                      >
+
+                        <button
+                          className="
+                          bg-black
+                          text-white
+                          px-5
+                          py-2
+                          rounded-lg
+                          hover:bg-gray-800
+                          duration-300
+                          cursor-pointer
+                        "
+                        >
+                          View Details
+                        </button>
+
+                      </Link>
+
+                    </div>
+
+                  </div>
+                ))
+              }
+
+            </div>
+          )
+        }
 
       </div>
 
