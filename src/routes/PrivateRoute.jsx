@@ -54,11 +54,22 @@ const PrivateRoute = ({
         flex
         justify-center
         items-center
-        text-3xl
-        font-bold
+        bg-white
       "
       >
-        Loading...
+
+        <div
+          className="
+          w-16
+          h-16
+          border-4
+          border-black
+          border-t-transparent
+          rounded-full
+          animate-spin
+        "
+        />
+
       </div>
     );
   }

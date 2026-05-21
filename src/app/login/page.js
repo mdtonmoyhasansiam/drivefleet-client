@@ -6,6 +6,10 @@ import {
   useRouter,
 } from "next/navigation";
 
+import {
+  useState,
+} from "react";
+
 import toast from "react-hot-toast";
 
 import Navbar from "@/components/Navbar";
@@ -23,12 +27,17 @@ const LoginPage = () => {
 
   const router = useRouter();
 
+  const [loading, setLoading] =
+    useState(false);
+
 
 
   const handleLogin =
     async e => {
 
       e.preventDefault();
+
+      setLoading(true);
 
       const form = e.target;
 
@@ -57,9 +66,27 @@ const LoginPage = () => {
 
         console.log(error);
 
-        toast.error(
-          error.message
-        );
+        if (
+          error.message.includes(
+            "invalid-credential"
+          )
+        ) {
+
+          toast.error(
+            "Invalid Email or Password"
+          );
+        }
+
+        else {
+
+          toast.error(
+            "Login Failed"
+          );
+        }
+
+      } finally {
+
+        setLoading(false);
       }
     };
 
@@ -67,6 +94,8 @@ const LoginPage = () => {
 
   const handleGoogleLogin =
     async () => {
+
+      setLoading(true);
 
       try {
 
@@ -83,8 +112,12 @@ const LoginPage = () => {
         console.log(error);
 
         toast.error(
-          error.message
+          "Google Login Failed"
         );
+
+      } finally {
+
+        setLoading(false);
       }
     };
 
@@ -114,6 +147,7 @@ const LoginPage = () => {
           p-8
           rounded-xl
           w-[400px]
+          shadow-lg
         "
         >
 
@@ -122,6 +156,7 @@ const LoginPage = () => {
             text-3xl
             font-bold
             mb-5
+            text-center
           "
           >
             Login
@@ -138,6 +173,7 @@ const LoginPage = () => {
             w-full
             p-3
             mb-4
+            rounded-lg
           "
             required
           />
@@ -153,6 +189,7 @@ const LoginPage = () => {
             w-full
             p-3
             mb-4
+            rounded-lg
           "
             required
           />
@@ -160,21 +197,29 @@ const LoginPage = () => {
 
 
           <button
+            disabled={loading}
             className="
             bg-black
             text-white
             w-full
             py-3
             rounded-lg
+            cursor-pointer
+            disabled:opacity-50
           "
           >
-            Login
+            {
+              loading
+                ? "Loading..."
+                : "Login"
+            }
           </button>
 
 
 
           <button
             type="button"
+            disabled={loading}
             onClick={
               handleGoogleLogin
             }
@@ -185,6 +230,8 @@ const LoginPage = () => {
             py-3
             rounded-lg
             mt-4
+            cursor-pointer
+            disabled:opacity-50
           "
           >
             Continue with Google
@@ -195,6 +242,7 @@ const LoginPage = () => {
           <p
             className="
             mt-4
+            text-center
           "
           >
 
