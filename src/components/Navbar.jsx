@@ -14,6 +14,7 @@ const Navbar = () => {
 
   const {
     user,
+    loading,
     logoutUser,
   } = useAuth();
 
@@ -21,24 +22,46 @@ const Navbar = () => {
 
 
 
-  const handleLogout = () => {
+  const handleLogout =
+    () => {
 
-    logoutUser()
-      .then(() => {
+      logoutUser()
+        .then(() => {
 
-        toast.success(
-          "Logout Successful"
-        );
+          toast.success(
+            "Logout Successful"
+          );
 
-        router.push("/login");
-      })
-      .catch(() => {
+          router.push("/login");
+        })
+        .catch(() => {
 
-        toast.error(
-          "Logout Failed"
-        );
-      });
-  };
+          toast.error(
+            "Logout Failed"
+          );
+        });
+    };
+
+
+
+  if (loading) {
+
+    return (
+
+      <div
+        className="
+        h-20
+        flex
+        justify-center
+        items-center
+        text-2xl
+        font-bold
+      "
+      >
+        Loading...
+      </div>
+    );
+  }
 
 
 
@@ -57,6 +80,7 @@ const Navbar = () => {
     >
 
       <Link href="/">
+
         <h1
           className="
           text-2xl
@@ -65,6 +89,7 @@ const Navbar = () => {
         >
           DriveFleet
         </h1>
+
       </Link>
 
 
@@ -85,9 +110,12 @@ const Navbar = () => {
           Explore Cars
         </Link>
 
+
+
         {
           user && (
             <>
+
               <Link href="/add-car">
                 Add Car
               </Link>
@@ -99,6 +127,7 @@ const Navbar = () => {
               <Link href="/my-bookings">
                 My Bookings
               </Link>
+
             </>
           )
         }
@@ -122,6 +151,7 @@ const Navbar = () => {
             </button>
           ) : (
             <>
+
               <Link href="/login">
                 Login
               </Link>
@@ -131,6 +161,7 @@ const Navbar = () => {
               >
                 Register
               </Link>
+
             </>
           )
         }

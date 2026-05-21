@@ -47,10 +47,11 @@ const RegisterPage = () => {
 
       try {
 
-        await createUser(
-          email,
-          password
-        );
+        const result =
+          await createUser(
+            email,
+            password
+          );
 
         await updateUserProfile(
           name,
@@ -61,9 +62,13 @@ const RegisterPage = () => {
           "Registration Successful"
         );
 
+        form.reset();
+
         router.push("/");
 
       } catch (error) {
+
+        console.log(error);
 
         toast.error(
           error.message
@@ -74,23 +79,26 @@ const RegisterPage = () => {
 
 
   const handleGoogleLogin =
-    () => {
+    async () => {
 
-      googleLogin()
-        .then(() => {
+      try {
 
-          toast.success(
-            "Google Login Successful"
-          );
+        await googleLogin();
 
-          router.push("/");
-        })
-        .catch(error => {
+        toast.success(
+          "Google Login Successful"
+        );
 
-          toast.error(
-            error.message
-          );
-        });
+        router.push("/");
+
+      } catch (error) {
+
+        console.log(error);
+
+        toast.error(
+          error.message
+        );
+      }
     };
 
 

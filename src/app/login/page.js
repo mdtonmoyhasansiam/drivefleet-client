@@ -25,60 +25,67 @@ const LoginPage = () => {
 
 
 
-  const handleLogin = e => {
+  const handleLogin =
+    async e => {
 
-    e.preventDefault();
+      e.preventDefault();
 
-    const form = e.target;
+      const form = e.target;
 
-    const email =
-      form.email.value;
+      const email =
+        form.email.value;
 
-    const password =
-      form.password.value;
+      const password =
+        form.password.value;
 
+      try {
 
-
-    loginUser(
-      email,
-      password
-    )
-      .then(() => {
+        await loginUser(
+          email,
+          password
+        );
 
         toast.success(
           "Login Successful"
         );
 
+        form.reset();
+
         router.push("/");
-      })
-      .catch(error => {
+
+      } catch (error) {
+
+        console.log(error);
 
         toast.error(
           error.message
         );
-      });
-  };
+      }
+    };
 
 
 
   const handleGoogleLogin =
-    () => {
+    async () => {
 
-      googleLogin()
-        .then(() => {
+      try {
 
-          toast.success(
-            "Google Login Successful"
-          );
+        await googleLogin();
 
-          router.push("/");
-        })
-        .catch(error => {
+        toast.success(
+          "Google Login Successful"
+        );
 
-          toast.error(
-            error.message
-          );
-        });
+        router.push("/");
+
+      } catch (error) {
+
+        console.log(error);
+
+        toast.error(
+          error.message
+        );
+      }
     };
 
 
