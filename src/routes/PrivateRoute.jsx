@@ -19,7 +19,8 @@ const PrivateRoute = ({
     loading,
   } = useAuth();
 
-  const router = useRouter();
+  const router =
+    useRouter();
 
 
 
@@ -30,7 +31,9 @@ const PrivateRoute = ({
       !user
     ) {
 
-      router.push("/login");
+      router.push(
+        "/login"
+      );
     }
 
   }, [
@@ -44,34 +47,32 @@ const PrivateRoute = ({
   if (loading) {
 
     return (
+
       <div
         className="
-        min-h-screen
+        h-screen
         flex
         justify-center
         items-center
+        text-3xl
+        font-bold
       "
       >
-
-        <h1
-          className="
-          text-3xl
-          font-bold
-        "
-        >
-          Loading...
-        </h1>
-
+        Loading...
       </div>
     );
   }
 
 
 
-  if (user) {
+  if (!user) {
 
-    return children;
+    return null;
   }
+
+
+
+  return children;
 };
 
 export default PrivateRoute;

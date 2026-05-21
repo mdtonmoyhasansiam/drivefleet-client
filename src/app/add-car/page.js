@@ -12,6 +12,8 @@ import Footer from "@/components/Footer";
 
 import useAuth from "@/hooks/useAuth";
 
+import PrivateRoute from "@/routes/PrivateRoute";
+
 const AddCarPage = () => {
 
   const { user } = useAuth();
@@ -101,153 +103,158 @@ const AddCarPage = () => {
 
   return (
 
-    <div>
+    <PrivateRoute>
 
-      <Navbar />
+      <div>
+
+        <Navbar />
 
 
 
-      <div
-        className="
-        min-h-screen
-        flex
-        justify-center
-        items-center
-      "
-      >
-
-        <form
-          onSubmit={
-            handleAddCar
-          }
+        <div
           className="
-          border
-          p-8
-          rounded-xl
-          w-[500px]
+          min-h-screen
+          flex
+          justify-center
+          items-center
         "
         >
 
-          <h1
+          <form
+            onSubmit={
+              handleAddCar
+            }
             className="
-            text-3xl
-            font-bold
-            mb-5
+            border
+            p-8
+            rounded-xl
+            w-[500px]
           "
           >
-            Add Car
-          </h1>
+
+            <h1
+              className="
+              text-3xl
+              font-bold
+              mb-5
+            "
+            >
+              Add Car
+            </h1>
 
 
 
-          <input
-            type="text"
-            name="carName"
-            placeholder="Car Name"
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <input
+              type="text"
+              name="carName"
+              placeholder="Car Name"
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <input
-            type="text"
-            name="carType"
-            placeholder="Car Type"
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <input
+              type="text"
+              name="carType"
+              placeholder="Car Type"
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <input
-            type="number"
-            name="dailyRentalPrice"
-            placeholder="Daily Rental Price"
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <input
+              type="number"
+              name="dailyRentalPrice"
+              placeholder="Daily Rental Price"
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <input
-            type="text"
-            name="image"
-            placeholder="Image URL"
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <input
+              type="text"
+              name="image"
+              placeholder="Image URL"
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <input
-            type="text"
-            name="location"
-            placeholder="Location"
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <input
+              type="text"
+              name="location"
+              placeholder="Location"
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <textarea
-            name="description"
-            placeholder="Description"
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <textarea
+              name="description"
+              placeholder="Description"
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <button
-            className="
-            bg-black
-            text-white
-            w-full
-            py-3
-            rounded-lg
-          "
-          >
-            Add Car
-          </button>
+            <button
+              className="
+              bg-black
+              text-white
+              w-full
+              py-3
+              rounded-lg
+              cursor-pointer
+            "
+            >
+              Add Car
+            </button>
 
-        </form>
+          </form>
+
+        </div>
+
+        <Footer />
 
       </div>
 
-      <Footer />
-
-    </div>
+    </PrivateRoute>
   );
 };
 

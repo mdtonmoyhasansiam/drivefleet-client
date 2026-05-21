@@ -16,6 +16,8 @@ import Navbar from "@/components/Navbar";
 
 import Footer from "@/components/Footer";
 
+import PrivateRoute from "@/routes/PrivateRoute";
+
 const UpdateCarPage = () => {
 
   const { id } =
@@ -130,168 +132,172 @@ const UpdateCarPage = () => {
 
   return (
 
-    <div>
+    <PrivateRoute>
 
-      <Navbar />
+      <div>
+
+        <Navbar />
 
 
 
-      <div
-        className="
-        min-h-screen
-        flex
-        justify-center
-        items-center
-      "
-      >
-
-        <form
-          onSubmit={
-            handleUpdateCar
-          }
+        <div
           className="
-          border
-          p-8
-          rounded-xl
-          w-[500px]
+          min-h-screen
+          flex
+          justify-center
+          items-center
         "
         >
 
-          <h1
+          <form
+            onSubmit={
+              handleUpdateCar
+            }
             className="
-            text-3xl
-            font-bold
-            mb-5
+            border
+            p-8
+            rounded-xl
+            w-[500px]
           "
           >
-            Update Car
-          </h1>
+
+            <h1
+              className="
+              text-3xl
+              font-bold
+              mb-5
+            "
+            >
+              Update Car
+            </h1>
 
 
 
-          <input
-            type="text"
-            name="carName"
-            defaultValue={
-              car.carName
-            }
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <input
+              type="text"
+              name="carName"
+              defaultValue={
+                car.carName
+              }
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <input
-            type="text"
-            name="carType"
-            defaultValue={
-              car.carType
-            }
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <input
+              type="text"
+              name="carType"
+              defaultValue={
+                car.carType
+              }
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <input
-            type="number"
-            name="dailyRentalPrice"
-            defaultValue={
-              car.dailyRentalPrice
-            }
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <input
+              type="number"
+              name="dailyRentalPrice"
+              defaultValue={
+                car.dailyRentalPrice
+              }
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <input
-            type="text"
-            name="image"
-            defaultValue={
-              car.image
-            }
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <input
+              type="text"
+              name="image"
+              defaultValue={
+                car.image
+              }
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <input
-            type="text"
-            name="location"
-            defaultValue={
-              car.location
-            }
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <input
+              type="text"
+              name="location"
+              defaultValue={
+                car.location
+              }
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <textarea
-            name="description"
-            defaultValue={
-              car.description
-            }
-            className="
-            border
-            w-full
-            p-3
-            mb-4
-          "
-            required
-          />
+            <textarea
+              name="description"
+              defaultValue={
+                car.description
+              }
+              className="
+              border
+              w-full
+              p-3
+              mb-4
+            "
+              required
+            />
 
 
 
-          <button
-            className="
-            bg-black
-            text-white
-            w-full
-            py-3
-            rounded-lg
-            cursor-pointer
-          "
-          >
-            Update Car
-          </button>
+            <button
+              className="
+              bg-black
+              text-white
+              w-full
+              py-3
+              rounded-lg
+              cursor-pointer
+            "
+            >
+              Update Car
+            </button>
 
-        </form>
+          </form>
+
+        </div>
+
+
+
+        <Footer />
 
       </div>
 
-
-
-      <Footer />
-
-    </div>
+    </PrivateRoute>
   );
 };
 

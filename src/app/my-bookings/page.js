@@ -11,6 +11,8 @@ import Footer from "@/components/Footer";
 
 import useAuth from "@/hooks/useAuth";
 
+import PrivateRoute from "@/routes/PrivateRoute";
+
 const MyBookingsPage = () => {
 
   const { user } =
@@ -43,125 +45,129 @@ const MyBookingsPage = () => {
 
   return (
 
-    <div>
+    <PrivateRoute>
 
-      <Navbar />
+      <div>
 
-
-
-      <div
-        className="
-        max-w-7xl
-        mx-auto
-        py-10
-        px-5
-      "
-      >
-
-        <h1
-          className="
-          text-4xl
-          font-bold
-          mb-8
-          text-center
-        "
-        >
-          My Bookings
-        </h1>
+        <Navbar />
 
 
 
         <div
           className="
-          grid
-          grid-cols-1
-          md:grid-cols-2
-          lg:grid-cols-3
-          gap-8
+          max-w-7xl
+          mx-auto
+          py-10
+          px-5
         "
         >
 
-          {
-            bookings.map(
-              booking => (
-
-                <div
-                  key={
-                    booking._id
-                  }
-                  className="
-                  border
-                  rounded-xl
-                  overflow-hidden
-                  shadow-lg
-                "
-                >
-
-                  <img
-                    src={
-                      booking.image
-                    }
-                    alt={
-                      booking.carName
-                    }
-                    className="
-                    w-full
-                    h-[220px]
-                    object-cover
-                  "
-                  />
+          <h1
+            className="
+            text-4xl
+            font-bold
+            mb-8
+            text-center
+          "
+          >
+            My Bookings
+          </h1>
 
 
+
+          <div
+            className="
+            grid
+            grid-cols-1
+            md:grid-cols-2
+            lg:grid-cols-3
+            gap-8
+          "
+          >
+
+            {
+              bookings.map(
+                booking => (
 
                   <div
+                    key={
+                      booking._id
+                    }
                     className="
-                    p-5
+                    border
+                    rounded-xl
+                    overflow-hidden
+                    shadow-lg
                   "
                   >
 
-                    <h2
-                      className="
-                      text-2xl
-                      font-bold
-                      mb-3
-                    "
-                    >
-                      {
+                    <img
+                      src={
+                        booking.image
+                      }
+                      alt={
                         booking.carName
                       }
-                    </h2>
-
-
-
-                    <p
                       className="
-                      text-lg
+                      w-full
+                      h-[220px]
+                      object-cover
+                    "
+                    />
+
+
+
+                    <div
+                      className="
+                      p-5
                     "
                     >
-                      Price:
-                      {" "}
-                      $
-                      {
-                        booking.price
-                      }
-                    </p>
+
+                      <h2
+                        className="
+                        text-2xl
+                        font-bold
+                        mb-3
+                      "
+                      >
+                        {
+                          booking.carName
+                        }
+                      </h2>
+
+
+
+                      <p
+                        className="
+                        text-lg
+                      "
+                      >
+                        Price:
+                        {" "}
+                        $
+                        {
+                          booking.price
+                        }
+                      </p>
+
+                    </div>
 
                   </div>
-
-                </div>
+                )
               )
-            )
-          }
+            }
+
+          </div>
 
         </div>
 
+
+
+        <Footer />
+
       </div>
 
-
-
-      <Footer />
-
-    </div>
+    </PrivateRoute>
   );
 };
 

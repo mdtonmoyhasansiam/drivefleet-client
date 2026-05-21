@@ -7,8 +7,6 @@ import {
 
 import Link from "next/link";
 
-import toast from "react-hot-toast";
-
 import Swal from "sweetalert2";
 
 import Navbar from "@/components/Navbar";
@@ -16,6 +14,8 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import useAuth from "@/hooks/useAuth";
+
+import PrivateRoute from "@/routes/PrivateRoute";
 
 const MyCarsPage = () => {
 
@@ -130,134 +130,158 @@ const MyCarsPage = () => {
 
   return (
 
-    <div>
+    <PrivateRoute>
 
-      <Navbar />
+      <div>
 
-
-
-      <div
-        className="
-        max-w-7xl
-        mx-auto
-        py-10
-        px-5
-      "
-      >
-
-        <h1
-          className="
-          text-4xl
-          font-bold
-          mb-8
-          text-center
-        "
-        >
-          My Cars
-        </h1>
+        <Navbar />
 
 
 
         <div
           className="
-          grid
-          grid-cols-1
-          md:grid-cols-2
-          lg:grid-cols-3
-          gap-8
+          max-w-7xl
+          mx-auto
+          py-10
+          px-5
         "
         >
 
-          {
-            cars.map(
-              car => (
-
-                <div
-                  key={car._id}
-                  className="
-                  border
-                  rounded-xl
-                  overflow-hidden
-                  shadow-lg
-                "
-                >
-
-                  <img
-                    src={car.image}
-                    alt={car.carName}
-                    className="
-                    w-full
-                    h-[220px]
-                    object-cover
-                  "
-                  />
+          <h1
+            className="
+            text-4xl
+            font-bold
+            mb-8
+            text-center
+          "
+          >
+            My Cars
+          </h1>
 
 
+
+          <div
+            className="
+            grid
+            grid-cols-1
+            md:grid-cols-2
+            lg:grid-cols-3
+            gap-8
+          "
+          >
+
+            {
+              cars.map(
+                car => (
 
                   <div
+                    key={car._id}
                     className="
-                    p-5
+                    border
+                    rounded-xl
+                    overflow-hidden
+                    shadow-lg
                   "
                   >
 
-                    <h2
+                    <img
+                      src={car.image}
+                      alt={car.carName}
                       className="
-                      text-2xl
-                      font-bold
-                      mb-3
+                      w-full
+                      h-[220px]
+                      object-cover
                     "
-                    >
-                      {
-                        car.carName
-                      }
-                    </h2>
-
-
-
-                    <p
-                      className="
-                      mb-2
-                    "
-                    >
-                      Type:
-                      {" "}
-                      {
-                        car.carType
-                      }
-                    </p>
-
-
-
-                    <p
-                      className="
-                      mb-2
-                    "
-                    >
-                      Price:
-                      {" "}
-                      $
-                      {
-                        car.dailyRentalPrice
-                      }
-                    </p>
+                    />
 
 
 
                     <div
                       className="
-                      flex
-                      gap-3
-                      mt-5
+                      p-5
                     "
                     >
 
-                      <Link
-                        href={`/update-car/${car._id}`}
+                      <h2
+                        className="
+                        text-2xl
+                        font-bold
+                        mb-3
+                      "
+                      >
+                        {
+                          car.carName
+                        }
+                      </h2>
+
+
+
+                      <p
+                        className="
+                        mb-2
+                      "
+                      >
+                        Type:
+                        {" "}
+                        {
+                          car.carType
+                        }
+                      </p>
+
+
+
+                      <p
+                        className="
+                        mb-2
+                      "
+                      >
+                        Price:
+                        {" "}
+                        $
+                        {
+                          car.dailyRentalPrice
+                        }
+                      </p>
+
+
+
+                      <div
+                        className="
+                        flex
+                        gap-3
+                        mt-5
+                      "
                       >
 
+                        <Link
+                          href={`/update-car/${car._id}`}
+                        >
+
+                          <button
+                            className="
+                            bg-blue-500
+                            text-white
+                            px-4
+                            py-2
+                            rounded-lg
+                            cursor-pointer
+                          "
+                          >
+                            Update
+                          </button>
+
+                        </Link>
+
+
+
                         <button
+                          onClick={() =>
+                            handleDelete(
+                              car._id
+                            )
+                          }
                           className="
-                          bg-blue-500
+                          bg-red-500
                           text-white
                           px-4
                           py-2
@@ -265,49 +289,29 @@ const MyCarsPage = () => {
                           cursor-pointer
                         "
                         >
-                          Update
+                          Delete
                         </button>
 
-                      </Link>
-
-
-
-                      <button
-                        onClick={() =>
-                          handleDelete(
-                            car._id
-                          )
-                        }
-                        className="
-                        bg-red-500
-                        text-white
-                        px-4
-                        py-2
-                        rounded-lg
-                        cursor-pointer
-                      "
-                      >
-                        Delete
-                      </button>
+                      </div>
 
                     </div>
 
                   </div>
-
-                </div>
+                )
               )
-            )
-          }
+            }
+
+          </div>
 
         </div>
 
+
+
+        <Footer />
+
       </div>
 
-
-
-      <Footer />
-
-    </div>
+    </PrivateRoute>
   );
 };
 
