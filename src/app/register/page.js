@@ -6,6 +6,10 @@ import {
   useRouter,
 } from "next/navigation";
 
+import {
+  useState,
+} from "react";
+
 import toast from "react-hot-toast";
 
 import Navbar from "@/components/Navbar";
@@ -24,12 +28,17 @@ const RegisterPage = () => {
 
   const router = useRouter();
 
+  const [loading, setLoading] =
+    useState(false);
+
 
 
   const handleRegister =
     async e => {
 
       e.preventDefault();
+
+      setLoading(true);
 
       const form = e.target;
 
@@ -45,13 +54,29 @@ const RegisterPage = () => {
       const password =
         form.password.value;
 
+
+
+      if (
+        password.length < 6
+      ) {
+
+        toast.error(
+          "Password must be at least 6 characters"
+        );
+
+        setLoading(false);
+
+        return;
+      }
+
+
+
       try {
 
-        const result =
-          await createUser(
-            email,
-            password
-          );
+        await createUser(
+          email,
+          password
+        );
 
         await updateUserProfile(
           name,
@@ -70,9 +95,29 @@ const RegisterPage = () => {
 
         console.log(error);
 
-        toast.error(
-          error.message
-        );
+
+
+        if (
+          error.message.includes(
+            "email-already-in-use"
+          )
+        ) {
+
+          toast.error(
+            "Email already exists"
+          );
+        }
+
+        else {
+
+          toast.error(
+            "Registration Failed"
+          );
+        }
+
+      } finally {
+
+        setLoading(false);
       }
     };
 
@@ -80,6 +125,8 @@ const RegisterPage = () => {
 
   const handleGoogleLogin =
     async () => {
+
+      setLoading(true);
 
       try {
 
@@ -96,8 +143,12 @@ const RegisterPage = () => {
         console.log(error);
 
         toast.error(
-          error.message
+          "Google Login Failed"
         );
+
+      } finally {
+
+        setLoading(false);
       }
     };
 
@@ -127,6 +178,7 @@ const RegisterPage = () => {
           p-8
           rounded-xl
           w-[400px]
+          shadow-lg
         "
         >
 
@@ -135,6 +187,7 @@ const RegisterPage = () => {
             text-3xl
             font-bold
             mb-5
+            text-center
           "
           >
             Register
@@ -151,6 +204,7 @@ const RegisterPage = () => {
             w-full
             p-3
             mb-4
+            rounded-lg
           "
             required
           />
@@ -166,6 +220,7 @@ const RegisterPage = () => {
             w-full
             p-3
             mb-4
+            rounded-lg
           "
             required
           />
@@ -181,6 +236,7 @@ const RegisterPage = () => {
             w-full
             p-3
             mb-4
+            rounded-lg
           "
             required
           />
@@ -196,6 +252,7 @@ const RegisterPage = () => {
             w-full
             p-3
             mb-4
+            rounded-lg
           "
             required
           />
@@ -203,21 +260,29 @@ const RegisterPage = () => {
 
 
           <button
+            disabled={loading}
             className="
             bg-black
             text-white
             w-full
             py-3
             rounded-lg
+            cursor-pointer
+            disabled:opacity-50
           "
           >
-            Register
+            {
+              loading
+                ? "Loading..."
+                : "Register"
+            }
           </button>
 
 
 
           <button
             type="button"
+            disabled={loading}
             onClick={
               handleGoogleLogin
             }
@@ -228,6 +293,8 @@ const RegisterPage = () => {
             py-3
             rounded-lg
             mt-4
+            cursor-pointer
+            disabled:opacity-50
           "
           >
             Continue with Google
@@ -238,6 +305,7 @@ const RegisterPage = () => {
           <p
             className="
             mt-4
+            text-center
           "
           >
 
