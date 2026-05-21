@@ -1,477 +1,274 @@
 "use client";
 
-import {
-  useEffect,
-  useState,
-} from "react";
-
+import { useEffect, useState } from "react";
 import Link from "next/link";
 
 import Navbar from "@/components/Navbar";
-
 import Footer from "@/components/Footer";
-
-import LoadingSpinner
-  from "@/components/LoadingSpinner";
+import LoadingSpinner from "@/components/LoadingSpinner";
 
 const Home = () => {
-
-  const [cars, setCars] =
-    useState([]);
-
-  const [loading, setLoading] =
-    useState(true);
-
-
+  const [cars, setCars] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-
-    fetch(
-      "http://localhost:5000/cars"
-    )
-      .then(res => res.json())
-      .then(data => {
-
+    fetch("http://localhost:5000/cars")
+      .then((res) => res.json())
+      .then((data) => {
         setCars(data);
-
         setLoading(false);
       })
-      .catch(error => {
-
-        console.log(error);
-
-        setLoading(false);
-      });
-
+      .catch(() => setLoading(false));
   }, []);
 
-
-
-
   return (
-
-    <div>
+    <div className="bg-black text-white">
 
       <Navbar />
 
+      {/* 🚀 HERO SECTION (COLLAGE STYLE) */}
+      <section className="relative min-h-[90vh] flex items-center px-5 overflow-hidden">
 
+        {/* background glow */}
+        <div className="absolute inset-0 bg-gradient-to-b from-black via-[#0b0f1a] to-black" />
+        <div className="absolute w-[500px] h-[500px] bg-indigo-600/20 blur-[120px] rounded-full top-[-150px] left-[-150px]" />
+        <div className="absolute w-[500px] h-[500px] bg-purple-600/20 blur-[120px] rounded-full bottom-[-150px] right-[-150px]" />
 
-      {/* HERO SECTION */}
+        <div className="relative z-10 max-w-7xl mx-auto w-full flex flex-col lg:flex-row items-center gap-12">
 
-      <div
-        className="
-        bg-black
-        text-white
-        min-h-[85vh]
-        flex
-        justify-center
-        items-center
-        flex-col
-        text-center
-        px-5
-        relative
-      "
-      >
+          {/* LEFT TEXT */}
+          <div className="flex-1 text-center lg:text-left">
 
-        <div
-          className="
-          absolute
-          inset-0
-          bg-gradient-to-r
-          from-black
-          via-gray-900
-          to-black
-          opacity-95
-        "
-        />
+            <h1 className="text-5xl md:text-6xl font-extrabold leading-tight">
+              Drive Your
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-purple-600">
+                Dream Cars Today
+              </span>
+            </h1>
 
+            <p className="mt-6 text-white/60 text-lg max-w-xl">
+              Premium car rental platform with luxury vehicles, fast booking, and trusted service.
+              Explore hundreds of verified cars instantly.
+            </p>
 
+            <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
 
-        <div
-          className="
-          relative
-          z-10
-        "
-        >
+              <Link
+                href="/explore-cars"
+                className="px-6 py-3 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:scale-105 transition text-center"
+              >
+                Explore Cars
+              </Link>
 
-          <h1
-            className="
-            text-5xl
-            md:text-7xl
-            font-extrabold
-            mb-6
-            leading-tight
-          "
-          >
-            Luxury Cars <br />
-            For Every Journey
-          </h1>
+              <Link
+                href="/add-car"
+                className="px-6 py-3 rounded-full border border-white/20 text-white/70 hover:bg-white/10 transition text-center"
+              >
+                Add Your Car
+              </Link>
 
-          <p
-            className="
-            text-lg
-            md:text-2xl
-            text-gray-300
-            mb-8
-            max-w-2xl
-            mx-auto
-          "
-          >
-            Rent premium cars at the best price with DriveFleet.
-            Fast booking, luxury experience, and trusted service.
-          </p>
+            </div>
 
+          </div>
 
+          {/* RIGHT COLLAGE */}
+          <div className="flex-1 grid grid-cols-2 gap-4">
 
-          <Link href="/explore-cars">
+            {/* big tile */}
+            <div className="col-span-2 rounded-2xl overflow-hidden h-[250px]">
+              <img
+                src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
+                className="w-full h-full object-cover hover:scale-110 transition duration-500"
+              />
+            </div>
 
-            <button
-              className="
-              bg-white
-              text-black
-              px-8
-              py-4
-              rounded-xl
-              font-bold
-              text-lg
-              hover:bg-gray-200
-              duration-300
-              cursor-pointer
-            "
-            >
-              Explore Cars
-            </button>
+            {/* small tile 1 */}
+            <div className="rounded-2xl overflow-hidden h-[150px]">
+              <img
+                src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1200&q=80"
+                className="w-full h-full object-cover hover:scale-110 transition duration-500"
+              />
+            </div>
 
-          </Link>
+            {/* small tile 2 */}
+            <div className="rounded-2xl overflow-hidden h-[150px]">
+              <img
+                src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
+                className="w-full h-full object-cover hover:scale-110 transition duration-500"
+              />
+            </div>
+
+          </div>
 
         </div>
 
-      </div>
+      </section>
 
+      {/* 📊 STATS */}
+      <section className="w-11/12 mx-auto grid grid-cols-1 md:grid-cols-3 gap-6 py-20">
 
-
-      {/* STATS SECTION */}
-
-      <div
-        className="
-        w-11/12
-        mx-auto
-        grid
-        grid-cols-1
-        md:grid-cols-3
-        gap-8
-        py-20
-      "
-      >
-
-        <div
-          className="
-          bg-white
-          shadow-xl
-          rounded-2xl
-          p-8
-          text-center
-        "
-        >
-
-          <h2
-            className="
-            text-5xl
-            font-bold
-            mb-3
-          "
-          >
-            500+
-          </h2>
-
-          <p
-            className="
-            text-gray-500
-            text-lg
-          "
-          >
-            Premium Cars
-          </p>
-
-        </div>
-
-
-
-        <div
-          className="
-          bg-white
-          shadow-xl
-          rounded-2xl
-          p-8
-          text-center
-        "
-        >
-
-          <h2
-            className="
-            text-5xl
-            font-bold
-            mb-3
-          "
-          >
-            24/7
-          </h2>
-
-          <p
-            className="
-            text-gray-500
-            text-lg
-          "
-          >
-            Customer Support
-          </p>
-
-        </div>
-
-
-
-        <div
-          className="
-          bg-white
-          shadow-xl
-          rounded-2xl
-          p-8
-          text-center
-        "
-        >
-
-          <h2
-            className="
-            text-5xl
-            font-bold
-            mb-3
-          "
-          >
-            100%
-          </h2>
-
-          <p
-            className="
-            text-gray-500
-            text-lg
-          "
-          >
-            Trusted Service
-          </p>
-
-        </div>
-
-      </div>
-
-
-
-      {/* SECTION TITLE */}
-
-      <div
-        className="
-        text-center
-        pb-14
-      "
-      >
-
-        <h2
-          className="
-          text-5xl
-          font-bold
-          mb-4
-        "
-        >
-          Featured Cars
-        </h2>
-
-        <p
-          className="
-          text-gray-600
-          text-lg
-        "
-        >
-          Choose your dream car
-        </p>
-
-      </div>
-
-
-
-      {/* CARS SECTION */}
-
-      {
-        loading ? (
-
-          <LoadingSpinner />
-
-        ) : (
-
+        {[
+          { num: "500+", label: "Luxury Cars" },
+          { num: "24/7", label: "Support" },
+          { num: "100%", label: "Trusted Service" },
+        ].map((item, i) => (
           <div
-            className="
-            w-11/12
-            mx-auto
-            grid
-            grid-cols-1
-            md:grid-cols-2
-            lg:grid-cols-3
-            gap-8
-            pb-20
-          "
+            key={i}
+            className="p-8 rounded-2xl bg-white/5 border border-white/10 text-center hover:border-indigo-500 hover:scale-105 transition"
           >
+            <h2 className="text-5xl font-bold">{item.num}</h2>
+            <p className="text-white/60 mt-2">{item.label}</p>
+          </div>
+        ))}
 
-            {cars.slice(0, 6).map(car => (
+      </section>
+
+      {/* 🚗 FEATURED CARS (6–9 ONLY) */}
+      <section className="w-11/12 mx-auto py-20">
+
+        {/* TITLE */}
+        <div className="text-center mb-12">
+          <h2 className="text-4xl md:text-5xl font-bold">
+            Featured Cars
+          </h2>
+          <p className="text-white/50 mt-3">
+            Top premium picks for you
+          </p>
+        </div>
+
+        {/* GRID */}
+        {loading ? (
+          <LoadingSpinner />
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            {cars.slice(0, 9).map((car) => (
 
               <div
                 key={car._id}
-                className="
-                border
-                rounded-2xl
-                overflow-hidden
-                shadow-lg
-                hover:scale-105
-                hover:shadow-2xl
-                duration-300
-                bg-white
-              "
+                className="group flex flex-col rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-indigo-500 hover:shadow-[0_0_25px_rgba(99,102,241,0.3)] hover:scale-[1.02] transition duration-300"
               >
 
-                <img
-                  src={car.image}
-                  alt=""
-                  className="
-                  h-[250px]
-                  w-full
-                  object-cover
-                "
-                />
+                {/* IMAGE (FIXED RESPONSIVE HEIGHT) */}
+                <div className="w-full h-[200px] sm:h-[220px] md:h-[240px] overflow-hidden bg-black">
+                  <img
+                    src={car.image || "https://via.placeholder.com/400"}
+                    alt={car.carName}
+                    className="w-full h-full object-cover group-hover:scale-110 transition duration-500"
+                  />
+                </div>
 
-                <div
-                  className="
-                  p-5
-                "
-                >
+                {/* CONTENT */}
+                <div className="p-5 flex flex-col flex-1">
 
-                  <h2
-                    className="
-                    text-3xl
-                    font-bold
-                    mb-3
-                  "
-                  >
+                  <h2 className="text-lg sm:text-xl font-bold">
                     {car.carName}
                   </h2>
 
-                  <p
-                    className="
-                    mb-2
-                    text-lg
-                  "
-                  >
-                    Type:
-                    {" "}
-                    {car.carType}
+                  <p className="text-white/60 mt-1 text-sm sm:text-base">
+                    Type: {car.carType}
                   </p>
 
-                  <p
-                    className="
-                    mb-5
-                    text-lg
-                  "
-                  >
-                    Price:
-                    {" "}
-                    $
-                    {car.dailyRentalPrice}
-                    /day
+                  <p className="text-white/60 text-sm sm:text-base">
+                    Price: ${car.dailyRentalPrice}/day
                   </p>
 
-                  <Link
-                    href={`/cars/${car._id}`}
-                  >
+                  {/* BUTTON FIXED BOTTOM */}
+                  <div className="mt-auto pt-5">
 
-                    <button
-                      className="
-                      bg-black
-                      text-white
-                      px-5
-                      py-2
-                      rounded-lg
-                      hover:bg-gray-800
-                      duration-300
-                      cursor-pointer
-                    "
-                    >
-                      View Details
-                    </button>
+                    <Link href={`/cars/${car._id}`}>
+                      <button className="w-full px-5 py-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:scale-105 transition cursor-pointer text-sm sm:text-base">
+                        View Details
+                      </button>
+                    </Link>
 
-                  </Link>
+                  </div>
 
                 </div>
 
               </div>
+
             ))}
 
           </div>
-        )
-      }
+        )}
 
+        {/* VIEW ALL BUTTON */}
+        <div className="text-center mt-12">
+          <Link
+            href="/explore-cars"
+            className="inline-block px-6 py-3 rounded-full border border-white/20 text-white/70 hover:bg-white/10 transition"
+          >
+            View All Cars
+          </Link>
+        </div>
 
+      </section>
 
-      {/* CTA SECTION */}
+      {/* 🚘 CARS GRID */}
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <section className="w-11/12 mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 pb-20">
 
-      <div
-        className="
-        bg-black
-        text-white
-        py-20
-        text-center
-        px-5
-      "
-      >
+          {cars.slice(0, 6).map((car) => (
+            <div
+              key={car._id}
+              className="rounded-2xl overflow-hidden bg-white/5 border border-white/10 hover:border-indigo-500 hover:scale-[1.03] transition"
+            >
 
-        <h2
-          className="
-          text-5xl
-          font-bold
-          mb-5
-        "
-        >
-          Ready To Drive?
+              <img
+                src={car.image}
+                className="h-[240px] w-full object-cover"
+              />
+
+              <div className="p-5">
+
+                <h2 className="text-2xl font-bold">
+                  {car.carName}
+                </h2>
+
+                <p className="text-white/60 mt-1">
+                  {car.carType}
+                </p>
+
+                <p className="text-white/60 mb-4">
+                  ${car.dailyRentalPrice}/day
+                </p>
+
+                <Link href={`/cars/${car._id}`}>
+                  <button className="px-5 py-2 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:scale-105 transition">
+                    View Details
+                  </button>
+                </Link>
+
+              </div>
+
+            </div>
+          ))}
+
+        </section>
+      )}
+
+      {/* ⚡ CTA */}
+      <section className="py-20 text-center bg-gradient-to-b from-black via-[#0b0f1a] to-black">
+
+        <h2 className="text-4xl md:text-5xl font-bold">
+          Ready To Drive Luxury?
         </h2>
 
-        <p
-          className="
-          text-xl
-          text-gray-300
-          mb-8
-        "
-        >
-          Book your favorite car today and enjoy the ride.
+        <p className="text-white/60 mt-4">
+          Book your favorite car in seconds
         </p>
 
-        <Link href="/explore-cars">
-
-          <button
-            className="
-            bg-white
-            text-black
-            px-8
-            py-3
-            rounded-xl
-            font-bold
-            hover:bg-gray-200
-            duration-300
-            cursor-pointer
-          "
-          >
-            Get Started
-          </button>
-
+        <Link
+          href="/explore-cars"
+          className="inline-block mt-8 px-6 py-3 rounded-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:scale-105 transition"
+        >
+          Get Started
         </Link>
 
-      </div>
-
-
+      </section>
 
       <Footer />
 
