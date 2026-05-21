@@ -11,6 +11,9 @@ import Navbar from "@/components/Navbar";
 
 import Footer from "@/components/Footer";
 
+import LoadingSpinner
+  from "@/components/LoadingSpinner";
+
 const ExploreCarsPage = () => {
 
   const [cars, setCars] =
@@ -22,9 +25,17 @@ const ExploreCarsPage = () => {
   const [type, setType] =
     useState("");
 
+  const [loading, setLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
+
 
 
   useEffect(() => {
+
+    setLoading(true);
 
     fetch(
       `http://localhost:5000/search-cars?search=${search}&type=${type}`
@@ -33,6 +44,20 @@ const ExploreCarsPage = () => {
       .then(data => {
 
         setCars(data);
+
+        setLoading(false);
+
+        setError("");
+      })
+      .catch(error => {
+
+        console.log(error);
+
+        setLoading(false);
+
+        setError(
+          "Failed to load cars"
+        );
       });
 
   }, [search, type]);
@@ -142,10 +167,26 @@ const ExploreCarsPage = () => {
 
 
 
-        {/* CARS */}
-
         {
-          cars.length === 0 ? (
+          loading ? (
+
+            <LoadingSpinner />
+
+          ) : error ? (
+
+            <div
+              className="
+              text-center
+              text-red-500
+              text-2xl
+              font-bold
+              py-20
+            "
+            >
+              {error}
+            </div>
+
+          ) : cars.length === 0 ? (
 
             <div
               className="
