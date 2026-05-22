@@ -125,9 +125,57 @@ const LoginPage = () => {
 
   return (
 
-    <div>
+    <div
+      className="
+      bg-black
+      text-white
+      min-h-screen
+      overflow-hidden
+    "
+    >
 
       <Navbar />
+
+
+
+      {/* BACKGROUND GLOW */}
+      <div
+        className="
+        fixed
+        inset-0
+        -z-10
+      "
+      >
+
+        <div
+          className="
+          absolute
+          top-[-120px]
+          left-[-120px]
+          w-[350px]
+          h-[350px]
+          bg-indigo-600/20
+          blur-[120px]
+          rounded-full
+        "
+        />
+
+        <div
+          className="
+          absolute
+          bottom-[-120px]
+          right-[-120px]
+          w-[350px]
+          h-[350px]
+          bg-purple-600/20
+          blur-[120px]
+          rounded-full
+        "
+        />
+
+      </div>
+
+
 
       <div
         className="
@@ -135,6 +183,8 @@ const LoginPage = () => {
         flex
         justify-center
         items-center
+        px-5
+        py-20
       "
       >
 
@@ -143,80 +193,200 @@ const LoginPage = () => {
             handleLogin
           }
           className="
+          w-full
+          max-w-md
+          bg-white/5
           border
+          border-white/10
+          backdrop-blur-xl
+          rounded-3xl
           p-8
-          rounded-xl
-          w-[400px]
-          shadow-lg
+          shadow-[0_0_40px_rgba(99,102,241,0.15)]
         "
         >
 
-          <h1
+          {/* TITLE */}
+          <div
             className="
-            text-3xl
-            font-bold
-            mb-5
             text-center
+            mb-8
           "
           >
-            Login
-          </h1>
+
+            <h1
+              className="
+              text-4xl
+              font-extrabold
+              mb-3
+            "
+            >
+              Welcome Back
+            </h1>
+
+            <p
+              className="
+              text-white/50
+            "
+            >
+              Login to continue your journey
+            </p>
+
+          </div>
 
 
 
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
+          {/* EMAIL */}
+          <div
             className="
-            border
-            w-full
-            p-3
-            mb-4
-            rounded-lg
+            mb-5
           "
-            required
-          />
+          >
+
+            <label
+              className="
+              block
+              mb-2
+              text-sm
+              text-white/70
+            "
+            >
+              Email Address
+            </label>
+
+            <input
+              type="email"
+              name="email"
+              placeholder="Enter your email"
+              className="
+              w-full
+              bg-white/5
+              border
+              border-white/10
+              text-white
+              placeholder-white/30
+              p-4
+              rounded-2xl
+              outline-none
+              focus:border-indigo-500
+              transition
+            "
+              required
+            />
+
+          </div>
 
 
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
+          {/* PASSWORD */}
+          <div
             className="
-            border
-            w-full
-            p-3
-            mb-4
-            rounded-lg
+            mb-6
           "
-            required
-          />
+          >
+
+            <label
+              className="
+              block
+              mb-2
+              text-sm
+              text-white/70
+            "
+            >
+              Password
+            </label>
+
+            <input
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+              className="
+              w-full
+              bg-white/5
+              border
+              border-white/10
+              text-white
+              placeholder-white/30
+              p-4
+              rounded-2xl
+              outline-none
+              focus:border-indigo-500
+              transition
+            "
+              required
+            />
+
+          </div>
 
 
 
+          {/* LOGIN BUTTON */}
           <button
             disabled={loading}
             className="
-            bg-black
-            text-white
             w-full
-            py-3
-            rounded-lg
+            py-4
+            rounded-2xl
+            font-semibold
+            bg-gradient-to-r
+            from-indigo-500
+            to-purple-600
+            hover:scale-[1.02]
+            transition
             cursor-pointer
             disabled:opacity-50
           "
           >
+
             {
               loading
                 ? "Loading..."
                 : "Login"
             }
+
           </button>
 
 
 
+          {/* DIVIDER */}
+          <div
+            className="
+            flex
+            items-center
+            gap-3
+            my-6
+          "
+          >
+
+            <div
+              className="
+              flex-1
+              h-[1px]
+              bg-white/10
+            "
+            />
+
+            <p
+              className="
+              text-white/40
+              text-sm
+            "
+            >
+              OR
+            </p>
+
+            <div
+              className="
+              flex-1
+              h-[1px]
+              bg-white/10
+            "
+            />
+
+          </div>
+
+
+
+          {/* GOOGLE BUTTON */}
           <button
             type="button"
             disabled={loading}
@@ -224,14 +394,17 @@ const LoginPage = () => {
               handleGoogleLogin
             }
             className="
-            bg-red-500
-            text-white
             w-full
-            py-3
-            rounded-lg
-            mt-4
+            py-4
+            rounded-2xl
+            border
+            border-white/10
+            bg-white/5
+            hover:bg-white/10
+            transition
             cursor-pointer
             disabled:opacity-50
+            font-medium
           "
           >
             Continue with Google
@@ -239,10 +412,12 @@ const LoginPage = () => {
 
 
 
+          {/* REGISTER LINK */}
           <p
             className="
-            mt-4
+            mt-8
             text-center
+            text-white/60
           "
           >
 
@@ -251,8 +426,11 @@ const LoginPage = () => {
             <Link
               href="/register"
               className="
-              text-blue-500
               ml-2
+              text-indigo-400
+              hover:text-indigo-300
+              transition
+              font-semibold
             "
             >
               Register

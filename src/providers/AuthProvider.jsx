@@ -11,12 +11,12 @@ import {
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signInWithPopup,
-  signOut,
   createUserWithEmailAndPassword,
+  signOut,
   updateProfile,
 } from "firebase/auth";
 
-import auth from "@/services/firebase.config";
+import auth from "@/lib/firebase.config";
 
 export const AuthContext =
   createContext(null);
@@ -37,6 +37,7 @@ const AuthProvider = ({
 
 
   // REGISTER
+
   const createUser = (
     email,
     password
@@ -54,6 +55,7 @@ const AuthProvider = ({
 
 
   // LOGIN
+
   const loginUser = (
     email,
     password
@@ -71,19 +73,22 @@ const AuthProvider = ({
 
 
   // GOOGLE LOGIN
-  const googleLogin = () => {
 
-    setLoading(true);
+  const googleLogin =
+    () => {
 
-    return signInWithPopup(
-      auth,
-      googleProvider
-    );
-  };
+      setLoading(true);
+
+      return signInWithPopup(
+        auth,
+        googleProvider
+      );
+    };
 
 
 
   // UPDATE PROFILE
+
   const updateUserProfile = (
     name,
     photo
@@ -92,8 +97,11 @@ const AuthProvider = ({
     return updateProfile(
       auth.currentUser,
       {
-        displayName: name,
-        photoURL: photo,
+        displayName:
+          name,
+
+        photoURL:
+          photo,
       }
     );
   };
@@ -101,82 +109,33 @@ const AuthProvider = ({
 
 
   // LOGOUT
-  const logoutUser = () => {
 
-    setLoading(true);
+  const logoutUser =
+    async () => {
 
-    return signOut(auth);
-  };
+      setLoading(true);
+
+      await signOut(auth);
+
+      setUser(null);
+
+      setLoading(false);
+    };
 
 
 
   // OBSERVER
+
   useEffect(() => {
 
     const unsubscribe =
       onAuthStateChanged(
         auth,
-        async (
-          currentUser
-        ) => {
+        currentUser => {
 
           setUser(
             currentUser
           );
-
-          try {
-
-            if (
-              currentUser?.email
-            ) {
-
-              const userData =
-                {
-                  email:
-                    currentUser.email,
-                };
-
-              await fetch(
-                "http://localhost:5000/jwt",
-                {
-                  method:
-                    "POST",
-
-                  headers: {
-                    "content-type":
-                      "application/json",
-                  },
-
-                  credentials:
-                    "include",
-
-                  body: JSON.stringify(
-                    userData
-                  ),
-                }
-              );
-            }
-
-            else {
-
-              await fetch(
-                "http://localhost:5000/logout",
-                {
-                  method:
-                    "POST",
-
-                  credentials:
-                    "include",
-                }
-              );
-            }
-
-          } catch (error) {
-
-            console.log(
-              error
-            );
-          }
 
           setLoading(false);
         }
@@ -189,24 +148,33 @@ const AuthProvider = ({
 
 
 
+
   const authInfo = {
+
     user,
     loading,
+
     createUser,
+
     loginUser,
+
     googleLogin,
-    updateUserProfile,
+
     logoutUser,
+
+    updateUserProfile,
   };
 
 
 
   return (
+
     <AuthContext.Provider
       value={authInfo}
     >
       {children}
     </AuthContext.Provider>
+
   );
 };
 

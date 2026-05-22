@@ -24,6 +24,7 @@ const RegisterPage = () => {
     createUser,
     googleLogin,
     updateUserProfile,
+    logoutUser,
   } = useAuth();
 
   const router = useRouter();
@@ -32,6 +33,8 @@ const RegisterPage = () => {
     useState(false);
 
 
+
+  // EMAIL REGISTER
 
   const handleRegister =
     async e => {
@@ -109,30 +112,43 @@ const RegisterPage = () => {
 
       try {
 
+        // CREATE USER
+
         await createUser(
           email,
           password
         );
+
+
+
+        // UPDATE PROFILE
 
         await updateUserProfile(
           name,
           photo
         );
 
+
+
+        // LOGOUT AFTER REGISTER
+
+        await logoutUser();
+
+
+
         toast.success(
           "Registration Successful"
         );
+
+
 
         form.reset();
 
 
 
-        // REQUIREMENT:
-        // Redirect to Login Page
+        // LOGIN PAGE
 
-        router.push(
-          "/login"
-        );
+        router.push("/login");
 
       } catch (error) {
 
@@ -166,6 +182,8 @@ const RegisterPage = () => {
 
 
 
+  // GOOGLE REGISTER / LOGIN
+
   const handleGoogleLogin =
     async () => {
 
@@ -173,7 +191,36 @@ const RegisterPage = () => {
 
       try {
 
-        await googleLogin();
+        const result =
+          await googleLogin();
+
+        const user =
+          result.user;
+
+
+
+        // JWT CREATE
+
+        await fetch(
+          "http://localhost:5000/jwt",
+          {
+            method: "POST",
+
+            headers: {
+              "content-type":
+                "application/json",
+            },
+
+            credentials: "include",
+
+            body: JSON.stringify({
+              email:
+                user.email,
+            }),
+          }
+        );
+
+
 
         toast.success(
           "Google Login Successful"
@@ -181,8 +228,7 @@ const RegisterPage = () => {
 
 
 
-        // REQUIREMENT:
-        // Google login → Home page
+        // HOME PAGE
 
         router.push("/");
 
@@ -204,9 +250,11 @@ const RegisterPage = () => {
 
   return (
 
-    <div>
+    <div className="bg-black min-h-screen text-white">
 
       <Navbar />
+
+
 
       <div
         className="
@@ -214,6 +262,8 @@ const RegisterPage = () => {
         flex
         justify-center
         items-center
+        px-5
+        py-20
       "
       >
 
@@ -222,20 +272,24 @@ const RegisterPage = () => {
             handleRegister
           }
           className="
+          w-full
+          max-w-[450px]
+          bg-white/5
           border
+          border-white/10
+          backdrop-blur-xl
+          rounded-3xl
           p-8
-          rounded-xl
-          w-[400px]
-          shadow-lg
+          shadow-2xl
         "
         >
 
           <h1
             className="
-            text-3xl
+            text-4xl
             font-bold
-            mb-5
             text-center
+            mb-8
           "
           >
             Register
@@ -246,13 +300,19 @@ const RegisterPage = () => {
           <input
             type="text"
             name="name"
-            placeholder="Name"
+            placeholder="Your Name"
             className="
-            border
             w-full
-            p-3
+            p-4
             mb-4
-            rounded-lg
+            rounded-xl
+            bg-white/5
+            border
+            border-white/10
+            text-white
+            placeholder-white/40
+            focus:outline-none
+            focus:border-indigo-500
           "
             required
           />
@@ -264,11 +324,17 @@ const RegisterPage = () => {
             name="photo"
             placeholder="Photo URL"
             className="
-            border
             w-full
-            p-3
+            p-4
             mb-4
-            rounded-lg
+            rounded-xl
+            bg-white/5
+            border
+            border-white/10
+            text-white
+            placeholder-white/40
+            focus:outline-none
+            focus:border-indigo-500
           "
             required
           />
@@ -278,13 +344,19 @@ const RegisterPage = () => {
           <input
             type="email"
             name="email"
-            placeholder="Email"
+            placeholder="Email Address"
             className="
-            border
             w-full
-            p-3
+            p-4
             mb-4
-            rounded-lg
+            rounded-xl
+            bg-white/5
+            border
+            border-white/10
+            text-white
+            placeholder-white/40
+            focus:outline-none
+            focus:border-indigo-500
           "
             required
           />
@@ -296,11 +368,17 @@ const RegisterPage = () => {
             name="password"
             placeholder="Password"
             className="
-            border
             w-full
-            p-3
+            p-4
             mb-4
-            rounded-lg
+            rounded-xl
+            bg-white/5
+            border
+            border-white/10
+            text-white
+            placeholder-white/40
+            focus:outline-none
+            focus:border-indigo-500
           "
             required
           />
@@ -310,11 +388,15 @@ const RegisterPage = () => {
           <button
             disabled={loading}
             className="
-            bg-black
-            text-white
             w-full
-            py-3
-            rounded-lg
+            py-4
+            rounded-xl
+            bg-gradient-to-r
+            from-indigo-500
+            to-purple-600
+            font-semibold
+            hover:scale-[1.02]
+            transition
             cursor-pointer
             disabled:opacity-50
           "
@@ -335,12 +417,15 @@ const RegisterPage = () => {
               handleGoogleLogin
             }
             className="
-            bg-red-500
-            text-white
             w-full
-            py-3
-            rounded-lg
+            py-4
+            rounded-xl
+            bg-white
+            text-black
+            font-semibold
             mt-4
+            hover:bg-gray-200
+            transition
             cursor-pointer
             disabled:opacity-50
           "
@@ -352,8 +437,9 @@ const RegisterPage = () => {
 
           <p
             className="
-            mt-4
+            mt-6
             text-center
+            text-white/60
           "
           >
 
@@ -362,8 +448,9 @@ const RegisterPage = () => {
             <Link
               href="/login"
               className="
-              text-blue-500
+              text-indigo-400
               ml-2
+              hover:underline
             "
             >
               Login
