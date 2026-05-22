@@ -64,7 +64,7 @@ const AddCarPage = () => {
 
 
       fetch(
-        "http://localhost:5000/add-car",
+        "https://drivefleet-server-zqxb.onrender.com/add-car",
         {
           method: "POST",
 

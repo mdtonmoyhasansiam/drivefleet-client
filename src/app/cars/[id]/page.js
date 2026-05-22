@@ -37,7 +37,7 @@ const CarDetailsPage = () => {
   useEffect(() => {
 
     fetch(
-      `http://localhost:5000/cars/${id}`
+      `https://drivefleet-server-zqxb.onrender.com/cars/${id}`
     )
       .then(res => res.json())
       .then(data => {
@@ -80,7 +80,7 @@ const CarDetailsPage = () => {
 
         const res =
           await fetch(
-            "http://localhost:5000/bookings",
+            "https://drivefleet-server-zqxb.onrender.com/bookings",
             {
               method:
                 "POST",

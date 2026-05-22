@@ -32,7 +32,7 @@ const UpdateCarPage = () => {
   useEffect(() => {
 
     fetch(
-      `http://localhost:5000/cars/${id}`
+      `https://drivefleet-server-zqxb.onrender.com/cars/${id}`
     )
       .then(res => res.json())
       .then(data => {
@@ -73,7 +73,7 @@ const UpdateCarPage = () => {
         };
 
       fetch(
-        `http://localhost:5000/update-car/${id}`,
+        `https://drivefleet-server-zqxb.onrender.com/update-car/${id}`,
         {
           method:
             "PUT",

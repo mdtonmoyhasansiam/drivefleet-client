@@ -31,7 +31,7 @@ const ExploreCarsPage = () => {
     setLoading(true);
 
     fetch(
-      `http://localhost:5000/search-cars?search=${search}&type=${type}`
+      `https://drivefleet-server-zqxb.onrender.com/search-cars?search=${search}&type=${type}`
     )
       .then(res => res.json())
       .then(data => {

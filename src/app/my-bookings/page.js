@@ -32,7 +32,7 @@ const MyBookingsPage = () => {
     if (user?.email) {
 
       fetch(
-        `http://localhost:5000/my-bookings/${user.email}`,
+        `https://drivefleet-server-zqxb.onrender.com/my-bookings/${user.email}`,
         {
           credentials:
             "include",

@@ -38,7 +38,7 @@ const MyCarsPage = () => {
     if (user?.email) {
 
       fetch(
-        `http://localhost:5000/my-cars/${user.email}`,
+        `https://drivefleet-server-zqxb.onrender.com/my-cars/${user.email}`,
         {
           credentials:
             "include",
@@ -95,7 +95,7 @@ const MyCarsPage = () => {
           ) {
 
             fetch(
-              `http://localhost:5000/delete-car/${id}`,
+              `https://drivefleet-server-zqxb.onrender.com/delete-car/${id}`,
               {
                 method:
                   "DELETE",

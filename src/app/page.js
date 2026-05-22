@@ -17,9 +17,7 @@ const Home = () => {
 
   useEffect(() => {
 
-    fetch(
-      "http://localhost:5000/featured-cars"
-    )
+    fetch("https://drivefleet-server-zqxb.onrender.com/featured-cars")
       .then(res => res.json())
       .then(data => {
 

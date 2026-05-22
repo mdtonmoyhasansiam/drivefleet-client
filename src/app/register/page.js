@@ -202,7 +202,7 @@ const RegisterPage = () => {
         // JWT CREATE
 
         await fetch(
-          "http://localhost:5000/jwt",
+          "https://drivefleet-server-zqxb.onrender.com/jwt",
           {
             method: "POST",
 
