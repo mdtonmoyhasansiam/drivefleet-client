@@ -15,8 +15,6 @@ const Home = () => {
   const [loading, setLoading] =
     useState(true);
 
-
-
   useEffect(() => {
 
     fetch(
@@ -36,27 +34,25 @@ const Home = () => {
 
   }, []);
 
-
-
-
   return (
 
-    <div className="bg-black text-white">
+    <div className="bg-black text-white overflow-hidden">
 
       <Navbar />
 
-
-
-      {/* 🚀 HERO SECTION */}
+      {/* HERO SECTION */}
 
       <section
         className="
         relative
-        min-h-[90vh]
+        min-h-screen
         flex
         items-center
-        px-5
+        px-4
+        sm:px-6
+        lg:px-8
         overflow-hidden
+        py-20
       "
       >
 
@@ -76,30 +72,32 @@ const Home = () => {
         <div
           className="
           absolute
-          w-[500px]
-          h-[500px]
+          w-[300px]
+          sm:w-[500px]
+          h-[300px]
+          sm:h-[500px]
           bg-indigo-600/20
           blur-[120px]
           rounded-full
-          top-[-150px]
-          left-[-150px]
+          top-[-100px]
+          left-[-100px]
         "
         />
 
         <div
           className="
           absolute
-          w-[500px]
-          h-[500px]
+          w-[300px]
+          sm:w-[500px]
+          h-[300px]
+          sm:h-[500px]
           bg-purple-600/20
           blur-[120px]
           rounded-full
-          bottom-[-150px]
-          right-[-150px]
+          bottom-[-100px]
+          right-[-100px]
         "
         />
-
-
 
         <div
           className="
@@ -109,14 +107,15 @@ const Home = () => {
           mx-auto
           w-full
           flex
-          flex-col
+          flex-col-reverse
           lg:flex-row
           items-center
-          gap-12
+          gap-10
+          lg:gap-16
         "
         >
 
-          {/* LEFT */}
+          {/* LEFT CONTENT */}
 
           <div
             className="
@@ -128,8 +127,10 @@ const Home = () => {
 
             <h1
               className="
-              text-5xl
+              text-4xl
+              sm:text-5xl
               md:text-6xl
+              lg:text-7xl
               font-extrabold
               leading-tight
             "
@@ -151,22 +152,22 @@ const Home = () => {
 
             </h1>
 
-
-
             <p
               className="
-              mt-6
+              mt-5
               text-white/60
-              text-lg
+              text-base
+              sm:text-lg
               max-w-xl
+              mx-auto
+              lg:mx-0
+              leading-relaxed
             "
             >
               Premium car rental platform with luxury vehicles,
               fast booking, and trusted service.
               Explore hundreds of verified cars instantly.
             </p>
-
-
 
             <div
               className="
@@ -183,34 +184,34 @@ const Home = () => {
               <Link
                 href="/explore-cars"
                 className="
-                px-6
+                px-7
                 py-3
                 rounded-full
                 bg-gradient-to-r
                 from-indigo-500
                 to-purple-600
                 hover:scale-105
-                transition
+                duration-300
                 text-center
+                font-semibold
               "
               >
                 Explore Cars
               </Link>
 
-
-
               <Link
                 href="/add-car"
                 className="
-                px-6
+                px-7
                 py-3
                 rounded-full
                 border
                 border-white/20
                 text-white/70
                 hover:bg-white/10
-                transition
+                duration-300
                 text-center
+                font-semibold
               "
               >
                 Add Your Car
@@ -220,84 +221,91 @@ const Home = () => {
 
           </div>
 
-
-
           {/* RIGHT COLLAGE */}
 
           <div
             className="
             flex-1
+            w-full
+            max-w-xl
             grid
             grid-cols-2
-            gap-4
+            gap-3
+            sm:gap-4
           "
           >
+
+            {/* BIG IMAGE */}
 
             <div
               className="
               col-span-2
               rounded-2xl
               overflow-hidden
-              h-[250px]
+              h-[220px]
+              sm:h-[300px]
+              md:h-[350px]
             "
             >
 
               <img
                 src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?auto=format&fit=crop&w=1200&q=80"
+                alt="Luxury Car"
                 className="
                 w-full
                 h-full
                 object-cover
                 hover:scale-110
-                transition
                 duration-500
               "
               />
 
             </div>
 
-
+            {/* SMALL IMAGE 1 */}
 
             <div
               className="
               rounded-2xl
               overflow-hidden
-              h-[150px]
+              h-[130px]
+              sm:h-[180px]
             "
             >
 
               <img
                 src="https://images.unsplash.com/photo-1542362567-b07e54358753?auto=format&fit=crop&w=1200&q=80"
+                alt="Sports Car"
                 className="
                 w-full
                 h-full
                 object-cover
                 hover:scale-110
-                transition
                 duration-500
               "
               />
 
             </div>
 
-
+            {/* SMALL IMAGE 2 */}
 
             <div
               className="
               rounded-2xl
               overflow-hidden
-              h-[150px]
+              h-[130px]
+              sm:h-[180px]
             "
             >
 
               <img
                 src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?auto=format&fit=crop&w=1200&q=80"
+                alt="Luxury SUV"
                 className="
                 w-full
                 h-full
                 object-cover
                 hover:scale-110
-                transition
                 duration-500
               "
               />
@@ -310,19 +318,19 @@ const Home = () => {
 
       </section>
 
-
-
-      {/* 📊 STATS */}
+      {/* STATS */}
 
       <section
         className="
         w-11/12
+        max-w-7xl
         mx-auto
         grid
         grid-cols-1
-        md:grid-cols-3
+        sm:grid-cols-2
+        lg:grid-cols-3
         gap-6
-        py-20
+        py-16
       "
       >
 
@@ -341,6 +349,7 @@ const Home = () => {
             num: "100%",
             label: "Trusted Service",
           },
+
         ].map((item, i) => (
 
           <div
@@ -354,13 +363,14 @@ const Home = () => {
             text-center
             hover:border-indigo-500
             hover:scale-105
-            transition
+            duration-300
           "
           >
 
             <h2
               className="
-              text-5xl
+              text-4xl
+              sm:text-5xl
               font-bold
             "
             >
@@ -371,6 +381,8 @@ const Home = () => {
               className="
               text-white/60
               mt-2
+              text-sm
+              sm:text-base
             "
             >
               {item.label}
@@ -381,30 +393,25 @@ const Home = () => {
 
       </section>
 
-
-
-      {/* 🚗 FEATURED CARS */}
+      {/* FEATURED CARS */}
 
       <section
         className="
         w-11/12
+        max-w-7xl
         mx-auto
-        py-20
+        py-16
       "
       >
 
         {/* TITLE */}
 
-        <div
-          className="
-          text-center
-          mb-12
-        "
-        >
+        <div className="text-center mb-12">
 
           <h2
             className="
-            text-4xl
+            text-3xl
+            sm:text-4xl
             md:text-5xl
             font-bold
           "
@@ -416,6 +423,8 @@ const Home = () => {
             className="
             text-white/50
             mt-3
+            text-sm
+            sm:text-base
           "
           >
             Top premium picks for you
@@ -423,9 +432,7 @@ const Home = () => {
 
         </div>
 
-
-
-        {/* GRID */}
+        {/* CARS */}
 
         {
           loading ? (
@@ -460,7 +467,6 @@ const Home = () => {
                   hover:border-indigo-500
                   hover:shadow-[0_0_25px_rgba(99,102,241,0.3)]
                   hover:scale-[1.02]
-                  transition
                   duration-300
                 "
                 >
@@ -470,11 +476,9 @@ const Home = () => {
                   <div
                     className="
                     w-full
-                    h-[200px]
-                    sm:h-[220px]
-                    md:h-[240px]
+                    h-[220px]
+                    sm:h-[240px]
                     overflow-hidden
-                    bg-black
                   "
                   >
 
@@ -489,14 +493,11 @@ const Home = () => {
                       h-full
                       object-cover
                       group-hover:scale-110
-                      transition
                       duration-500
                     "
                     />
 
                   </div>
-
-
 
                   {/* CONTENT */}
 
@@ -511,55 +512,31 @@ const Home = () => {
 
                     <h2
                       className="
-                      text-lg
-                      sm:text-xl
+                      text-xl
                       font-bold
                     "
                     >
                       {car.carName}
                     </h2>
 
-
+                    <p
+                      className="
+                      text-white/60
+                      mt-2
+                    "
+                    >
+                      Type: {car.carType}
+                    </p>
 
                     <p
                       className="
                       text-white/60
-                      mt-1
-                      text-sm
-                      sm:text-base
                     "
                     >
-                      Type:
-                      {" "}
-                      {car.carType}
+                      Price: ${car.dailyRentalPrice}/day
                     </p>
 
-
-
-                    <p
-                      className="
-                      text-white/60
-                      text-sm
-                      sm:text-base
-                    "
-                    >
-                      Price:
-                      {" "}
-                      $
-                      {car.dailyRentalPrice}
-                      /day
-                    </p>
-
-
-
-                    {/* BUTTON */}
-
-                    <div
-                      className="
-                      mt-auto
-                      pt-5
-                    "
-                    >
+                    <div className="mt-auto pt-5">
 
                       <Link
                         href={`/cars/${car._id}`}
@@ -569,16 +546,15 @@ const Home = () => {
                           className="
                           w-full
                           px-5
-                          py-2
+                          py-3
                           rounded-full
                           bg-gradient-to-r
                           from-indigo-500
                           to-purple-600
                           hover:scale-105
-                          transition
+                          duration-300
                           cursor-pointer
-                          text-sm
-                          sm:text-base
+                          font-semibold
                         "
                         >
                           View Details
@@ -597,29 +573,22 @@ const Home = () => {
           )
         }
 
-
-
         {/* VIEW ALL */}
 
-        <div
-          className="
-          text-center
-          mt-12
-        "
-        >
+        <div className="text-center mt-12">
 
           <Link
             href="/explore-cars"
             className="
             inline-block
-            px-6
+            px-7
             py-3
             rounded-full
             border
             border-white/20
             text-white/70
             hover:bg-white/10
-            transition
+            duration-300
           "
           >
             View All Cars
@@ -629,9 +598,7 @@ const Home = () => {
 
       </section>
 
-
-
-      {/* ⚡ CTA */}
+      {/* CTA */}
 
       <section
         className="
@@ -641,12 +608,14 @@ const Home = () => {
         from-black
         via-[#0b0f1a]
         to-black
+        px-4
       "
       >
 
         <h2
           className="
-          text-4xl
+          text-3xl
+          sm:text-4xl
           md:text-5xl
           font-bold
         "
@@ -654,40 +623,37 @@ const Home = () => {
           Ready To Drive Luxury?
         </h2>
 
-
-
         <p
           className="
           text-white/60
           mt-4
+          text-sm
+          sm:text-base
         "
         >
           Book your favorite car in seconds
         </p>
-
-
 
         <Link
           href="/explore-cars"
           className="
           inline-block
           mt-8
-          px-6
+          px-7
           py-3
           rounded-full
           bg-gradient-to-r
           from-indigo-500
           to-purple-600
           hover:scale-105
-          transition
+          duration-300
+          font-semibold
         "
         >
           Get Started
         </Link>
 
       </section>
-
-
 
       <Footer />
 
