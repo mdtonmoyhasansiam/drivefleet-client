@@ -2,32 +2,41 @@
 
 import { useEffect } from "react";
 
-import { useRouter, useSearchParams } from "next/navigation";
-
-import Cookies from "js-cookie";
+import {
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 
 const SocialLoginPage = () => {
 
   const router = useRouter();
 
-  const searchParams = useSearchParams();
+  const searchParams =
+    useSearchParams();
 
   useEffect(() => {
 
-    const token = searchParams.get("token");
+    const token =
+      searchParams.get(
+        "token"
+      );
 
     if (token) {
 
-      Cookies.set("token", token, {
-        expires: 7,
-      });
+      localStorage.setItem(
+        "access-token",
+        token
+      );
 
-      router.push("/");
+      window.location.href =
+        "/";
     }
 
     else {
 
-      router.push("/login");
+      router.push(
+        "/login"
+      );
     }
 
   }, [router, searchParams]);
