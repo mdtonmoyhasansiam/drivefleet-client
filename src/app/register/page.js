@@ -16,25 +16,17 @@ import Navbar from "@/components/Navbar";
 
 import Footer from "@/components/Footer";
 
-import useAuth from "@/hooks/useAuth";
-
 const RegisterPage = () => {
 
-  const {
-    createUser,
-    googleLogin,
-    updateUserProfile,
-    logoutUser,
-  } = useAuth();
-
-  const router = useRouter();
+  const router =
+    useRouter();
 
   const [loading, setLoading] =
     useState(false);
 
-
-
-  // EMAIL REGISTER
+  // ======================================
+  // REGISTER
+  // ======================================
 
   const handleRegister =
     async e => {
@@ -43,7 +35,8 @@ const RegisterPage = () => {
 
       setLoading(true);
 
-      const form = e.target;
+      const form =
+        e.target;
 
       const name =
         form.name.value;
@@ -56,8 +49,6 @@ const RegisterPage = () => {
 
       const password =
         form.password.value;
-
-
 
       // PASSWORD VALIDATION
 
@@ -74,8 +65,6 @@ const RegisterPage = () => {
         return;
       }
 
-
-
       if (
         !/[A-Z]/.test(
           password
@@ -83,15 +72,13 @@ const RegisterPage = () => {
       ) {
 
         toast.error(
-          "Password must contain at least one uppercase letter"
+          "Password must contain uppercase letter"
         );
 
         setLoading(false);
 
         return;
       }
-
-
 
       if (
         !/[a-z]/.test(
@@ -100,7 +87,7 @@ const RegisterPage = () => {
       ) {
 
         toast.error(
-          "Password must contain at least one lowercase letter"
+          "Password must contain lowercase letter"
         );
 
         setLoading(false);
@@ -108,45 +95,47 @@ const RegisterPage = () => {
         return;
       }
 
-
-
       try {
 
-        // CREATE USER
+        const response =
+          await fetch(
+            "https://drivefleet-server-zqxb.onrender.com/register",
+            {
+              method: "POST",
 
-        await createUser(
-          email,
-          password
-        );
+              headers: {
+                "content-type":
+                  "application/json",
+              },
 
+              body: JSON.stringify({
+                name,
+                email,
+                password,
+                photo,
+              }),
+            }
+          );
 
+        const data =
+          await response.json();
 
-        // UPDATE PROFILE
+        if (!response.ok) {
 
-        await updateUserProfile(
-          name,
-          photo
-        );
+          toast.error(
+            data.message
+          );
 
+          setLoading(false);
 
-
-        // LOGOUT AFTER REGISTER
-
-        await logoutUser();
-
-
+          return;
+        }
 
         toast.success(
           "Registration Successful"
         );
 
-
-
         form.reset();
-
-
-
-        // LOGIN PAGE
 
         router.push("/login");
 
@@ -154,25 +143,9 @@ const RegisterPage = () => {
 
         console.log(error);
 
-
-
-        if (
-          error.message.includes(
-            "email-already-in-use"
-          )
-        ) {
-
-          toast.error(
-            "Email already exists"
-          );
-        }
-
-        else {
-
-          toast.error(
-            "Registration Failed"
-          );
-        }
+        toast.error(
+          "Registration Failed"
+        );
 
       } finally {
 
@@ -180,9 +153,9 @@ const RegisterPage = () => {
       }
     };
 
-
-
-  // GOOGLE REGISTER / LOGIN
+  // ======================================
+  // GOOGLE LOGIN
+  // ======================================
 
   const handleGoogleLogin =
     async () => {
@@ -191,46 +164,10 @@ const RegisterPage = () => {
 
       try {
 
-        const result =
-          await googleLogin();
-
-        const user =
-          result.user;
-
-
-
-        // JWT CREATE
-
-        await fetch(
-          "https://drivefleet-server-zqxb.onrender.com/jwt",
-          {
-            method: "POST",
-
-            headers: {
-              "content-type":
-                "application/json",
-            },
-
-            credentials: "include",
-
-            body: JSON.stringify({
-              email:
-                user.email,
-            }),
-          }
+        window.open(
+          "https://drivefleet-server-zqxb.onrender.com/auth/google",
+          "_self"
         );
-
-
-
-        toast.success(
-          "Google Login Successful"
-        );
-
-
-
-        // HOME PAGE
-
-        router.push("/");
 
       } catch (error) {
 
@@ -240,21 +177,15 @@ const RegisterPage = () => {
           "Google Login Failed"
         );
 
-      } finally {
-
         setLoading(false);
       }
     };
-
-
 
   return (
 
     <div className="bg-black min-h-screen text-white">
 
       <Navbar />
-
-
 
       <div
         className="
@@ -295,8 +226,6 @@ const RegisterPage = () => {
             Register
           </h1>
 
-
-
           <input
             type="text"
             name="name"
@@ -316,8 +245,6 @@ const RegisterPage = () => {
           "
             required
           />
-
-
 
           <input
             type="text"
@@ -339,8 +266,6 @@ const RegisterPage = () => {
             required
           />
 
-
-
           <input
             type="email"
             name="email"
@@ -360,8 +285,6 @@ const RegisterPage = () => {
           "
             required
           />
-
-
 
           <input
             type="password"
@@ -383,8 +306,6 @@ const RegisterPage = () => {
             required
           />
 
-
-
           <button
             disabled={loading}
             className="
@@ -401,14 +322,14 @@ const RegisterPage = () => {
             disabled:opacity-50
           "
           >
+
             {
               loading
                 ? "Loading..."
                 : "Register"
             }
+
           </button>
-
-
 
           <button
             type="button"
@@ -430,10 +351,10 @@ const RegisterPage = () => {
             disabled:opacity-50
           "
           >
+
             Continue with Google
+
           </button>
-
-
 
           <p
             className="

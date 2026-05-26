@@ -16,14 +16,111 @@ import Navbar from "@/components/Navbar";
 
 import Footer from "@/components/Footer";
 
+import useAuth from "@/hooks/useAuth";
+
 const LoginPage = () => {
 
-  const router = useRouter();
+  const router =
+    useRouter();
+
+  const {
+    setUser,
+  } = useAuth();
 
   const [loading, setLoading] =
     useState(false);
 
+  // ======================================
+  // EMAIL LOGIN
+  // ======================================
 
+  const handleLogin =
+    async e => {
+
+      e.preventDefault();
+
+      setLoading(true);
+
+      const form =
+        e.target;
+
+      const email =
+        form.email.value;
+
+      const password =
+        form.password.value;
+
+      try {
+
+        const response =
+          await fetch(
+            "https://drivefleet-server-zqxb.onrender.com/login",
+            {
+              method: "POST",
+
+              headers: {
+                "content-type":
+                  "application/json",
+              },
+
+              body: JSON.stringify({
+                email,
+                password,
+              }),
+            }
+          );
+
+        const data =
+          await response.json();
+
+        if (!response.ok) {
+
+          toast.error(
+            data.message
+          );
+
+          setLoading(false);
+
+          return;
+        }
+
+        localStorage.setItem(
+          "access-token",
+          data.token
+        );
+
+        const payload =
+          JSON.parse(
+            atob(
+              data.token.split(".")[1]
+            )
+          );
+
+        setUser(payload);
+
+        toast.success(
+          "Login Successful"
+        );
+
+        router.push("/");
+
+      } catch (error) {
+
+        console.log(error);
+
+        toast.error(
+          "Login Failed"
+        );
+
+      } finally {
+
+        setLoading(false);
+      }
+    };
+
+  // ======================================
+  // GOOGLE LOGIN
+  // ======================================
 
   const handleGoogleLogin =
     async () => {
@@ -49,8 +146,6 @@ const LoginPage = () => {
       }
     };
 
-
-
   return (
 
     <div
@@ -64,9 +159,7 @@ const LoginPage = () => {
 
       <Navbar />
 
-
-
-      {/* BACKGROUND GLOW */}
+      {/* BACKGROUND */}
       <div
         className="
         fixed
@@ -103,8 +196,6 @@ const LoginPage = () => {
 
       </div>
 
-
-
       <div
         className="
         min-h-screen
@@ -116,7 +207,10 @@ const LoginPage = () => {
       "
       >
 
-        <div
+        <form
+          onSubmit={
+            handleLogin
+          }
           className="
           w-full
           max-w-md
@@ -130,7 +224,6 @@ const LoginPage = () => {
         "
         >
 
-          {/* TITLE */}
           <div
             className="
             text-center
@@ -153,14 +246,76 @@ const LoginPage = () => {
               text-white/50
             "
             >
-              Continue with your Google account
+              Login to your account
             </p>
 
           </div>
 
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            className="
+            w-full
+            p-4
+            mb-4
+            rounded-xl
+            bg-white/5
+            border
+            border-white/10
+            text-white
+            placeholder-white/40
+            focus:outline-none
+            focus:border-indigo-500
+          "
+            required
+          />
 
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="
+            w-full
+            p-4
+            mb-4
+            rounded-xl
+            bg-white/5
+            border
+            border-white/10
+            text-white
+            placeholder-white/40
+            focus:outline-none
+            focus:border-indigo-500
+          "
+            required
+          />
 
-          {/* GOOGLE BUTTON */}
+          <button
+            disabled={loading}
+            className="
+            w-full
+            py-4
+            rounded-xl
+            bg-gradient-to-r
+            from-indigo-500
+            to-purple-600
+            font-semibold
+            hover:scale-[1.02]
+            transition
+            cursor-pointer
+            disabled:opacity-50
+          "
+          >
+
+            {
+              loading
+                ? "Loading..."
+                : "Login"
+            }
+
+          </button>
+
           <button
             type="button"
             disabled={loading}
@@ -170,52 +325,46 @@ const LoginPage = () => {
             className="
             w-full
             py-4
-            rounded-2xl
-            border
-            border-white/10
-            bg-white/5
-            hover:bg-white/10
+            rounded-xl
+            bg-white
+            text-black
+            font-semibold
+            mt-4
+            hover:bg-gray-200
             transition
             cursor-pointer
             disabled:opacity-50
-            font-medium
           "
           >
 
-            {
-              loading
-                ? "Redirecting..."
-                : "Continue with Google"
-            }
+            Continue with Google
 
           </button>
 
-
-
-          {/* REGISTER LINK */}
           <p
             className="
-            mt-8
+            mt-6
             text-center
             text-white/60
           "
           >
 
-            Need a car rental account?
+            Don&apos;t have an account?
 
-            <span
+            <Link
+              href="/register"
               className="
-              ml-2
               text-indigo-400
-              font-semibold
+              ml-2
+              hover:underline
             "
             >
-              Login with Google
-            </span>
+              Register
+            </Link>
 
           </p>
 
-        </div>
+        </form>
 
       </div>
 
