@@ -20,6 +20,9 @@ import useAuth from "@/hooks/useAuth";
 
 import PrivateRoute from "@/routes/PrivateRoute";
 
+import axiosSecure
+  from "@/lib/axiosSecure";
+
 const MyCarsPage = () => {
 
   const { user } =
@@ -31,37 +34,33 @@ const MyCarsPage = () => {
   const [loading, setLoading] =
     useState(true);
 
-
-
   useEffect(() => {
 
-    if (user?.email) {
+    if (!user?.email) {
 
-      fetch(
-        `https://drivefleet-server-zqxb.onrender.com/my-cars/${user.email}`,
-        {
-          credentials:
-            "include",
-        }
-      )
-        .then(res => res.json())
-        .then(data => {
+      setLoading(false);
 
-          setCars(data);
-
-          setLoading(false);
-        })
-        .catch(error => {
-
-          console.log(error);
-
-          setLoading(false);
-        });
+      return;
     }
 
+    axiosSecure
+      .get(
+        `/my-cars/${user.email}`
+      )
+      .then(res => {
+
+        setCars(res.data);
+
+        setLoading(false);
+      })
+      .catch(error => {
+
+        console.log(error);
+
+        setLoading(false);
+      });
+
   }, [user]);
-
-
 
   const handleDelete =
     id => {
@@ -94,23 +93,14 @@ const MyCarsPage = () => {
             result.isConfirmed
           ) {
 
-            fetch(
-              `https://drivefleet-server-zqxb.onrender.com/delete-car/${id}`,
-              {
-                method:
-                  "DELETE",
-
-                credentials:
-                  "include",
-              }
-            )
-              .then(res =>
-                res.json()
+            axiosSecure
+              .delete(
+                `/delete-car/${id}`
               )
-              .then(data => {
+              .then(res => {
 
                 if (
-                  data.deletedCount >
+                  res.data.deletedCount >
                   0
                 ) {
 
@@ -142,16 +132,12 @@ const MyCarsPage = () => {
       );
     };
 
-
-
   if (loading) {
 
     return (
       <LoadingSpinner />
     );
   }
-
-
 
   return (
 
@@ -160,8 +146,6 @@ const MyCarsPage = () => {
       <div>
 
         <Navbar />
-
-
 
         <div
           className="
@@ -182,8 +166,6 @@ const MyCarsPage = () => {
           >
             My Cars
           </h1>
-
-
 
           {
             cars.length === 0 ? (
@@ -238,8 +220,6 @@ const MyCarsPage = () => {
                         rounded-xl
                         overflow-hidden
                         shadow-lg
-                        hover:shadow-2xl
-                        duration-300
                       "
                       >
 
@@ -252,8 +232,6 @@ const MyCarsPage = () => {
                           object-cover
                         "
                         />
-
-
 
                         <div
                           className="
@@ -273,13 +251,7 @@ const MyCarsPage = () => {
                             }
                           </h2>
 
-
-
-                          <p
-                            className="
-                            mb-2
-                          "
-                          >
+                          <p>
                             Type:
                             {" "}
                             {
@@ -287,13 +259,7 @@ const MyCarsPage = () => {
                             }
                           </p>
 
-
-
-                          <p
-                            className="
-                            mb-2
-                          "
-                          >
+                          <p>
                             Price:
                             {" "}
                             $
@@ -301,8 +267,6 @@ const MyCarsPage = () => {
                               car.dailyRentalPrice
                             }
                           </p>
-
-
 
                           <div
                             className="
@@ -323,15 +287,12 @@ const MyCarsPage = () => {
                                 px-4
                                 py-2
                                 rounded-lg
-                                cursor-pointer
                               "
                               >
                                 Update
                               </button>
 
                             </Link>
-
-
 
                             <button
                               onClick={() =>
@@ -345,7 +306,6 @@ const MyCarsPage = () => {
                               px-4
                               py-2
                               rounded-lg
-                              cursor-pointer
                             "
                             >
                               Delete
@@ -365,8 +325,6 @@ const MyCarsPage = () => {
           }
 
         </div>
-
-
 
         <Footer />
 

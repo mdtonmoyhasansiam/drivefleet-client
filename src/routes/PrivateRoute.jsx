@@ -38,19 +38,18 @@ const PrivateRoute = ({
     router,
   ]);
 
-  if (
-    loading
-  ) {
+  if (loading) {
 
     return (
+
       <div
         className="
         min-h-screen
         flex
-        items-center
         justify-center
-        text-white
+        items-center
         bg-black
+        text-white
       "
       >
         Loading...

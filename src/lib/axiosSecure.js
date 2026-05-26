@@ -1,9 +1,10 @@
 import axios from "axios";
 
-const axiosSecure = axios.create({
-  baseURL:
-    "https://drivefleet-server-zqxb.onrender.com",
-});
+const axiosSecure =
+  axios.create({
+    baseURL:
+      "https://drivefleet-server-zqxb.onrender.com",
+  });
 
 axiosSecure.interceptors.request.use(
   config => {
@@ -15,7 +16,7 @@ axiosSecure.interceptors.request.use(
 
     if (token) {
 
-      config.headers.authorization =
+      config.headers.Authorization =
         `Bearer ${token}`;
     }
 
@@ -23,6 +24,7 @@ axiosSecure.interceptors.request.use(
   },
 
   error => {
+
     return Promise.reject(
       error
     );
