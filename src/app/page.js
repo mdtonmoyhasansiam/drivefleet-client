@@ -17,15 +17,20 @@ const Home = () => {
 
   useEffect(() => {
 
-    fetch("https://drivefleet-server-zqxb.onrender.com/featured-cars")
+    fetch("https://drivefleet-server-zqxb.onrender.com/cars")
       .then(res => res.json())
       .then(data => {
 
-        setCars(data);
+        const featuredCars =
+          data.slice(0, 6);
+
+        setCars(featuredCars);
 
         setLoading(false);
       })
-      .catch(() => {
+      .catch(error => {
+
+        console.log(error);
 
         setLoading(false);
       });
@@ -402,8 +407,6 @@ const Home = () => {
       "
       >
 
-        {/* TITLE */}
-
         <div className="text-center mb-12">
 
           <h2
@@ -429,8 +432,6 @@ const Home = () => {
           </p>
 
         </div>
-
-        {/* CARS */}
 
         {
           loading ? (
@@ -469,8 +470,6 @@ const Home = () => {
                 "
                 >
 
-                  {/* IMAGE */}
-
                   <div
                     className="
                     w-full
@@ -496,8 +495,6 @@ const Home = () => {
                     />
 
                   </div>
-
-                  {/* CONTENT */}
 
                   <div
                     className="
@@ -570,8 +567,6 @@ const Home = () => {
             </div>
           )
         }
-
-        {/* VIEW ALL */}
 
         <div className="text-center mt-12">
 

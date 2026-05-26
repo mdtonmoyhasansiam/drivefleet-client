@@ -22,8 +22,6 @@ const PrivateRoute = ({
   const router =
     useRouter();
 
-
-
   useEffect(() => {
 
     if (
@@ -31,9 +29,7 @@ const PrivateRoute = ({
       !user
     ) {
 
-      router.push(
-        "/login"
-      );
+      router.push("/login");
     }
 
   }, [
@@ -42,46 +38,30 @@ const PrivateRoute = ({
     router,
   ]);
 
-
-
-  if (loading) {
+  if (
+    loading
+  ) {
 
     return (
-
       <div
         className="
-        h-screen
+        min-h-screen
         flex
-        justify-center
         items-center
-        bg-white
+        justify-center
+        text-white
+        bg-black
       "
       >
-
-        <div
-          className="
-          w-16
-          h-16
-          border-4
-          border-black
-          border-t-transparent
-          rounded-full
-          animate-spin
-        "
-        />
-
+        Loading...
       </div>
     );
   }
-
-
 
   if (!user) {
 
     return null;
   }
-
-
 
   return children;
 };

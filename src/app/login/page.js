@@ -16,79 +16,12 @@ import Navbar from "@/components/Navbar";
 
 import Footer from "@/components/Footer";
 
-import useAuth from "@/hooks/useAuth";
-
 const LoginPage = () => {
-
-  const {
-    loginUser,
-    googleLogin,
-  } = useAuth();
 
   const router = useRouter();
 
   const [loading, setLoading] =
     useState(false);
-
-
-
-  const handleLogin =
-    async e => {
-
-      e.preventDefault();
-
-      setLoading(true);
-
-      const form = e.target;
-
-      const email =
-        form.email.value;
-
-      const password =
-        form.password.value;
-
-      try {
-
-        await loginUser(
-          email,
-          password
-        );
-
-        toast.success(
-          "Login Successful"
-        );
-
-        form.reset();
-
-        router.push("/");
-
-      } catch (error) {
-
-        console.log(error);
-
-        if (
-          error.message.includes(
-            "invalid-credential"
-          )
-        ) {
-
-          toast.error(
-            "Invalid Email or Password"
-          );
-        }
-
-        else {
-
-          toast.error(
-            "Login Failed"
-          );
-        }
-
-      } finally {
-
-        setLoading(false);
-      }
-    };
 
 
 
@@ -99,13 +32,10 @@ const LoginPage = () => {
 
       try {
 
-        await googleLogin();
-
-        toast.success(
-          "Google Login Successful"
+        window.open(
+          "https://drivefleet-server-zqxb.onrender.com/auth/google",
+          "_self"
         );
-
-        router.push("/");
 
       } catch (error) {
 
@@ -114,8 +44,6 @@ const LoginPage = () => {
         toast.error(
           "Google Login Failed"
         );
-
-      } finally {
 
         setLoading(false);
       }
@@ -188,10 +116,7 @@ const LoginPage = () => {
       "
       >
 
-        <form
-          onSubmit={
-            handleLogin
-          }
+        <div
           className="
           w-full
           max-w-md
@@ -228,159 +153,8 @@ const LoginPage = () => {
               text-white/50
             "
             >
-              Login to continue your journey
+              Continue with your Google account
             </p>
-
-          </div>
-
-
-
-          {/* EMAIL */}
-          <div
-            className="
-            mb-5
-          "
-          >
-
-            <label
-              className="
-              block
-              mb-2
-              text-sm
-              text-white/70
-            "
-            >
-              Email Address
-            </label>
-
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              className="
-              w-full
-              bg-white/5
-              border
-              border-white/10
-              text-white
-              placeholder-white/30
-              p-4
-              rounded-2xl
-              outline-none
-              focus:border-indigo-500
-              transition
-            "
-              required
-            />
-
-          </div>
-
-
-
-          {/* PASSWORD */}
-          <div
-            className="
-            mb-6
-          "
-          >
-
-            <label
-              className="
-              block
-              mb-2
-              text-sm
-              text-white/70
-            "
-            >
-              Password
-            </label>
-
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              className="
-              w-full
-              bg-white/5
-              border
-              border-white/10
-              text-white
-              placeholder-white/30
-              p-4
-              rounded-2xl
-              outline-none
-              focus:border-indigo-500
-              transition
-            "
-              required
-            />
-
-          </div>
-
-
-
-          {/* LOGIN BUTTON */}
-          <button
-            disabled={loading}
-            className="
-            w-full
-            py-4
-            rounded-2xl
-            font-semibold
-            bg-gradient-to-r
-            from-indigo-500
-            to-purple-600
-            hover:scale-[1.02]
-            transition
-            cursor-pointer
-            disabled:opacity-50
-          "
-          >
-
-            {
-              loading
-                ? "Loading..."
-                : "Login"
-            }
-
-          </button>
-
-
-
-          {/* DIVIDER */}
-          <div
-            className="
-            flex
-            items-center
-            gap-3
-            my-6
-          "
-          >
-
-            <div
-              className="
-              flex-1
-              h-[1px]
-              bg-white/10
-            "
-            />
-
-            <p
-              className="
-              text-white/40
-              text-sm
-            "
-            >
-              OR
-            </p>
-
-            <div
-              className="
-              flex-1
-              h-[1px]
-              bg-white/10
-            "
-            />
 
           </div>
 
@@ -407,7 +181,13 @@ const LoginPage = () => {
             font-medium
           "
           >
-            Continue with Google
+
+            {
+              loading
+                ? "Redirecting..."
+                : "Continue with Google"
+            }
+
           </button>
 
 
@@ -421,24 +201,21 @@ const LoginPage = () => {
           "
           >
 
-            Don&apos;t have an account?
+            Need a car rental account?
 
-            <Link
-              href="/register"
+            <span
               className="
               ml-2
               text-indigo-400
-              hover:text-indigo-300
-              transition
               font-semibold
             "
             >
-              Register
-            </Link>
+              Login with Google
+            </span>
 
           </p>
 
-        </form>
+        </div>
 
       </div>
 
