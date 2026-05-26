@@ -18,6 +18,8 @@ import Footer from "@/components/Footer";
 
 import PrivateRoute from "@/routes/PrivateRoute";
 
+import axiosSecure from "@/lib/axiosSecure";
+
 const UpdateCarPage = () => {
 
   const { id } =
@@ -29,6 +31,11 @@ const UpdateCarPage = () => {
   const [car, setCar] =
     useState(null);
 
+  const [loading, setLoading] =
+    useState(true);
+
+
+
   useEffect(() => {
 
     fetch(
@@ -38,6 +45,14 @@ const UpdateCarPage = () => {
       .then(data => {
 
         setCar(data);
+
+        setLoading(false);
+      })
+      .catch(error => {
+
+        console.log(error);
+
+        setLoading(false);
       });
 
   }, [id]);
@@ -72,47 +87,50 @@ const UpdateCarPage = () => {
             form.description.value,
         };
 
-      fetch(
-        `https://drivefleet-server-zqxb.onrender.com/update-car/${id}`,
-        {
-          method:
-            "PUT",
+      try {
 
-          headers: {
-            "content-type":
-              "application/json",
-          },
-
-          credentials:
-            "include",
-
-          body: JSON.stringify(
+        const res =
+          await axiosSecure.put(
+            `/update-car/${id}`,
             updatedCar
-          ),
+          );
+
+        const data =
+          res.data;
+
+        if (
+          data.modifiedCount > 0
+        ) {
+
+          toast.success(
+            "Car Updated Successfully"
+          );
+
+          router.push(
+            "/my-cars"
+          );
         }
-      )
-        .then(res => res.json())
-        .then(data => {
 
-          if (
-            data.modifiedCount >
-            0
-          ) {
+        else {
 
-            toast.success(
-              "Car Updated Successfully"
-            );
+          toast.error(
+            "No Changes Made"
+          );
+        }
 
-            router.push(
-              "/my-cars"
-            );
-          }
-        });
+      } catch (error) {
+
+        console.log(error);
+
+        toast.error(
+          "Update Failed"
+        );
+      }
     };
 
 
 
-  if (!car) {
+  if (loading) {
 
     return (
       <div
