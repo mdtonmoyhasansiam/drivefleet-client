@@ -18,6 +18,8 @@ import Footer from "@/components/Footer";
 
 import useAuth from "@/hooks/useAuth";
 
+import axiosSecure from "@/lib/axiosSecure";
+
 const CarDetailsPage = () => {
 
   const { id } =
@@ -31,6 +33,9 @@ const CarDetailsPage = () => {
 
   const [car, setCar] =
     useState(null);
+
+  const [bookingLoading, setBookingLoading] =
+    useState(false);
 
 
 
@@ -63,47 +68,38 @@ const CarDetailsPage = () => {
         );
       }
 
-      const bookingData =
-        {
-          carId: car._id,
-          carName:
-            car.carName,
-          image:
-            car.image,
-          price:
-            car.dailyRentalPrice,
-          userEmail:
-            user.email,
-        };
+      setBookingLoading(true);
+
+      const bookingData = {
+        carId: car._id,
+
+        carName:
+          car.carName,
+
+        image:
+          car.image,
+
+        price:
+          car.dailyRentalPrice,
+
+        userEmail:
+          user.email,
+
+        bookingDate:
+          new Date(),
+      };
 
       try {
 
         const res =
-          await fetch(
-            "https://drivefleet-server-zqxb.onrender.com/bookings",
-            {
-              method:
-                "POST",
-
-              headers: {
-                "content-type":
-                  "application/json",
-              },
-
-              credentials:
-                "include",
-
-              body: JSON.stringify(
-                bookingData
-              ),
-            }
+          await axiosSecure.post(
+            "/bookings",
+            bookingData
           );
 
-        const data =
-          await res.json();
-
         if (
-          data.acknowledged
+          res.data.insertedId ||
+          res.data.acknowledged
         ) {
 
           toast.success(
@@ -111,23 +107,17 @@ const CarDetailsPage = () => {
           );
         }
 
-        else {
-
-          toast.error(
-            data.message ||
-              "Booking Failed"
-          );
-        }
-
       } catch (error) {
 
+        console.log(error);
+
         toast.error(
-          "Something went wrong"
+          "Unauthorized Access"
         );
 
-        console.log(
-          error
-        );
+      } finally {
+
+        setBookingLoading(false);
       }
     };
 
@@ -136,6 +126,7 @@ const CarDetailsPage = () => {
   if (!car) {
 
     return (
+
       <div
         className="
         h-screen
@@ -250,6 +241,9 @@ const CarDetailsPage = () => {
           onClick={
             handleBooking
           }
+          disabled={
+            bookingLoading
+          }
           className="
           bg-black
           text-white
@@ -259,9 +253,16 @@ const CarDetailsPage = () => {
           hover:bg-gray-800
           duration-300
           cursor-pointer
+          disabled:opacity-50
         "
         >
-          Book Now
+
+          {
+            bookingLoading
+              ? "Booking..."
+              : "Book Now"
+          }
+
         </button>
 
       </div>

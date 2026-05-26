@@ -14,11 +14,15 @@ import useAuth from "@/hooks/useAuth";
 
 import PrivateRoute from "@/routes/PrivateRoute";
 
+import axiosSecure from "@/lib/axiosSecure";
+
 const AddCarPage = () => {
 
-  const { user } = useAuth();
+  const { user } =
+    useAuth();
 
-  const router = useRouter();
+  const router =
+    useRouter();
 
 
 
@@ -63,40 +67,35 @@ const AddCarPage = () => {
 
 
 
-      fetch(
-        "https://drivefleet-server-zqxb.onrender.com/add-car",
-        {
-          method: "POST",
+      try {
 
-          headers: {
-            "content-type":
-              "application/json",
-          },
-
-          credentials:
-            "include",
-
-          body: JSON.stringify(
+        const res =
+          await axiosSecure.post(
+            "/add-car",
             carData
-          ),
+          );
+
+        if (
+          res.data.insertedId
+        ) {
+
+          toast.success(
+            "Car Added Successfully"
+          );
+
+          form.reset();
+
+          router.push("/");
         }
-      )
-        .then(res => res.json())
-        .then(data => {
 
-          if (
-            data.insertedId
-          ) {
+      } catch (error) {
 
-            toast.success(
-              "Car Added Successfully"
-            );
+        console.log(error);
 
-            form.reset();
-
-            router.push("/");
-          }
-        });
+        toast.error(
+          "Failed to Add Car"
+        );
+      }
     };
 
 
@@ -249,6 +248,8 @@ const AddCarPage = () => {
           </form>
 
         </div>
+
+
 
         <Footer />
 
