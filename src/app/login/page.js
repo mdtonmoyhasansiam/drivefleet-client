@@ -1,31 +1,16 @@
 "use client";
 
 import Link from "next/link";
-
-import {
-  useRouter,
-} from "next/navigation";
-
-import {
-  useState,
-} from "react";
-
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 import Navbar from "@/components/Navbar";
-
 import Footer from "@/components/Footer";
-
-import useAuth from "@/hooks/useAuth";
+import { authClient } from "@/lib/auth-client";
 
 const LoginPage = () => {
-
-  const router =
-    useRouter();
-
-  const {
-    setUser,
-  } = useAuth();
+  const router = useRouter();
 
   const [loading, setLoading] =
     useState(false);
@@ -34,89 +19,52 @@ const LoginPage = () => {
   // EMAIL LOGIN
   // ======================================
 
-  const handleLogin =
-    async e => {
+  const handleLogin = async e => {
+    e.preventDefault();
 
-      e.preventDefault();
+    setLoading(true);
 
-      setLoading(true);
+    const form = e.target;
 
-      const form =
-        e.target;
+    const email =
+      form.email.value;
 
-      const email =
-        form.email.value;
+    const password =
+      form.password.value;
 
-      const password =
-        form.password.value;
-
-      try {
-
-        const response =
-          await fetch(
-            "https://drivefleet-server-zqxb.onrender.com/login",
-            {
-              method: "POST",
-
-              headers: {
-                "content-type":
-                  "application/json",
-              },
-
-              body: JSON.stringify({
-                email,
-                password,
-              }),
-            }
-          );
-
-        const data =
-          await response.json();
-
-        if (!response.ok) {
-
-          toast.error(
-            data.message
-          );
-
-          setLoading(false);
-
-          return;
-        }
-
-        localStorage.setItem(
-          "access-token",
-          data.token
+    try {
+      const result =
+        await authClient.signIn.email(
+          {
+            email,
+            password,
+          }
         );
 
-        const payload =
-          JSON.parse(
-            atob(
-              data.token.split(".")[1]
-            )
-          );
-
-        setUser(payload);
-
-        toast.success(
-          "Login Successful"
-        );
-
-        router.push("/");
-
-      } catch (error) {
-
-        console.log(error);
-
+      if (result?.error) {
         toast.error(
-          "Login Failed"
+          result.error.message
         );
 
-      } finally {
-
-        setLoading(false);
+        return;
       }
-    };
+
+      toast.success(
+        "Login Successful"
+      );
+
+      router.push("/");
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        "Login Failed"
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // ======================================
   // GOOGLE LOGIN
@@ -124,30 +72,26 @@ const LoginPage = () => {
 
   const handleGoogleLogin =
     async () => {
-
-      setLoading(true);
-
       try {
+        await authClient.signIn.social(
+          {
+            provider:
+              "google",
 
-        window.open(
-          "https://drivefleet-server-zqxb.onrender.com/auth/google",
-          "_self"
+            callbackURL:
+              "https://drivefleet-rouge.vercel.app",
+          }
         );
-
       } catch (error) {
-
         console.log(error);
 
         toast.error(
           "Google Login Failed"
         );
-
-        setLoading(false);
       }
     };
 
   return (
-
     <div
       className="
       bg-black
@@ -156,7 +100,6 @@ const LoginPage = () => {
       overflow-hidden
     "
     >
-
       <Navbar />
 
       {/* BACKGROUND */}
@@ -167,7 +110,6 @@ const LoginPage = () => {
         -z-10
       "
       >
-
         <div
           className="
           absolute
@@ -193,7 +135,6 @@ const LoginPage = () => {
           rounded-full
         "
         />
-
       </div>
 
       <div
@@ -206,7 +147,6 @@ const LoginPage = () => {
         py-20
       "
       >
-
         <form
           onSubmit={
             handleLogin
@@ -223,14 +163,12 @@ const LoginPage = () => {
           shadow-[0_0_40px_rgba(99,102,241,0.15)]
         "
         >
-
           <div
             className="
             text-center
             mb-8
           "
           >
-
             <h1
               className="
               text-4xl
@@ -248,7 +186,6 @@ const LoginPage = () => {
             >
               Login to your account
             </p>
-
           </div>
 
           <input
@@ -307,13 +244,9 @@ const LoginPage = () => {
             disabled:opacity-50
           "
           >
-
-            {
-              loading
-                ? "Loading..."
-                : "Login"
-            }
-
+            {loading
+              ? "Loading..."
+              : "Login"}
           </button>
 
           <button
@@ -336,9 +269,7 @@ const LoginPage = () => {
             disabled:opacity-50
           "
           >
-
             Continue with Google
-
           </button>
 
           <p
@@ -348,8 +279,8 @@ const LoginPage = () => {
             text-white/60
           "
           >
-
-            Don&apos;t have an account?
+            Don&apos;t have an
+            account?
 
             <Link
               href="/register"
@@ -361,15 +292,11 @@ const LoginPage = () => {
             >
               Register
             </Link>
-
           </p>
-
         </form>
-
       </div>
 
       <Footer />
-
     </div>
   );
 };

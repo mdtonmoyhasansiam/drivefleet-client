@@ -1,173 +1,104 @@
 "use client";
 
 import Link from "next/link";
-
-import {
-  useRouter,
-} from "next/navigation";
-
-import {
-  useState,
-} from "react";
-
+import { useRouter } from "next/navigation";
+import { useState } from "react";
 import toast from "react-hot-toast";
 
 import Navbar from "@/components/Navbar";
-
 import Footer from "@/components/Footer";
+import { authClient } from "@/lib/auth-client";
 
 const RegisterPage = () => {
+  const router = useRouter();
 
-  const router =
-    useRouter();
+  const [loading, setLoading] = useState(false);
 
-  const [loading, setLoading] =
-    useState(false);
+  const handleRegister = async (e) => {
+    e.preventDefault();
 
-  // ======================================
-  // REGISTER
-  // ======================================
+    setLoading(true);
 
-  const handleRegister =
-    async e => {
+    const form = e.target;
 
-      e.preventDefault();
+    const name = form.name.value;
+    const photo = form.photo.value;
+    const email = form.email.value;
+    const password = form.password.value;
 
-      setLoading(true);
+    if (password.length < 6) {
+      toast.error(
+        "Password must be at least 6 characters"
+      );
 
-      const form =
-        e.target;
+      setLoading(false);
+      return;
+    }
 
-      const name =
-        form.name.value;
+    if (!/[A-Z]/.test(password)) {
+      toast.error(
+        "Password must contain uppercase letter"
+      );
 
-      const photo =
-        form.photo.value;
+      setLoading(false);
+      return;
+    }
 
-      const email =
-        form.email.value;
+    if (!/[a-z]/.test(password)) {
+      toast.error(
+        "Password must contain lowercase letter"
+      );
 
-      const password =
-        form.password.value;
+      setLoading(false);
+      return;
+    }
 
-      // PASSWORD VALIDATION
+    try {
+      const result =
+        await authClient.signUp.email({
+          name,
+          email,
+          password,
+          image: photo,
+        });
 
-      if (
-        password.length < 6
-      ) {
-
+      if (result?.error) {
         toast.error(
-          "Password must be at least 6 characters"
+          result.error.message
         );
-
-        setLoading(false);
 
         return;
       }
 
-      if (
-        !/[A-Z]/.test(
-          password
-        )
-      ) {
+      await authClient.signOut();
 
-        toast.error(
-          "Password must contain uppercase letter"
-        );
+      toast.success(
+        "Registration Successful"
+      );
 
-        setLoading(false);
+      router.push("/login");
 
-        return;
-      }
+    } catch (error) {
+      console.log(error);
 
-      if (
-        !/[a-z]/.test(
-          password
-        )
-      ) {
+      toast.error(
+        "Registration Failed"
+      );
 
-        toast.error(
-          "Password must contain lowercase letter"
-        );
-
-        setLoading(false);
-
-        return;
-      }
-
-      try {
-
-        const response =
-          await fetch(
-            "https://drivefleet-server-zqxb.onrender.com/register",
-            {
-              method: "POST",
-
-              headers: {
-                "content-type":
-                  "application/json",
-              },
-
-              body: JSON.stringify({
-                name,
-                email,
-                password,
-                photo,
-              }),
-            }
-          );
-
-        const data =
-          await response.json();
-
-        if (!response.ok) {
-
-          toast.error(
-            data.message
-          );
-
-          setLoading(false);
-
-          return;
-        }
-
-        toast.success(
-          "Registration Successful"
-        );
-
-        form.reset();
-
-        router.push("/login");
-
-      } catch (error) {
-
-        console.log(error);
-
-        toast.error(
-          "Registration Failed"
-        );
-
-      } finally {
-
-        setLoading(false);
-      }
-    };
-
-  // ======================================
-  // GOOGLE LOGIN
-  // ======================================
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleGoogleLogin =
     async () => {
 
-      setLoading(true);
-
       try {
 
-        window.open(
-          "https://drivefleet-server-zqxb.onrender.com/auth/google",
-          "_self"
-        );
+        await authClient.signIn.social({
+          provider: "google",
+          callbackURL: "https://drivefleet-rouge.vercel.app",
+        });
 
       } catch (error) {
 
@@ -176,13 +107,10 @@ const RegisterPage = () => {
         toast.error(
           "Google Login Failed"
         );
-
-        setLoading(false);
       }
     };
 
   return (
-
     <div className="bg-black min-h-screen text-white">
 
       <Navbar />
@@ -199,9 +127,7 @@ const RegisterPage = () => {
       >
 
         <form
-          onSubmit={
-            handleRegister
-          }
+          onSubmit={handleRegister}
           className="
           w-full
           max-w-[450px]
@@ -334,9 +260,7 @@ const RegisterPage = () => {
           <button
             type="button"
             disabled={loading}
-            onClick={
-              handleGoogleLogin
-            }
+            onClick={handleGoogleLogin}
             className="
             w-full
             py-4

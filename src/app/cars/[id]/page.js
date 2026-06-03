@@ -28,8 +28,16 @@ const CarDetailsPage = () => {
   const router =
     useRouter();
 
-  const { user } =
-    useAuth();
+  const {
+    user,
+    loading,
+  } = useAuth();
+
+  // Test
+  console.log("CAR DETAILS USER:", user);
+
+  // const token =
+  //   localStorage.getItem("token");
 
   const [car, setCar] =
     useState(null);
@@ -57,15 +65,19 @@ const CarDetailsPage = () => {
   const handleBooking =
     async () => {
 
+      if (loading) {
+        return;
+      }
+
       if (!user) {
 
         toast.error(
           "Please Login First"
         );
 
-        return router.push(
-          "/login"
-        );
+        router.push("/login");
+
+        return;
       }
 
       setBookingLoading(true);
@@ -83,7 +95,7 @@ const CarDetailsPage = () => {
           car.dailyRentalPrice,
 
         userEmail:
-          user.email,
+          user?.email,
 
         bookingDate:
           new Date(),
@@ -241,8 +253,11 @@ const CarDetailsPage = () => {
           onClick={
             handleBooking
           }
+          // disabled={
+          //   bookingLoading
+          // }
           disabled={
-            bookingLoading
+            bookingLoading || loading
           }
           className="
           bg-black
@@ -257,10 +272,18 @@ const CarDetailsPage = () => {
         "
         >
 
-          {
+          {/* {
             bookingLoading
               ? "Booking..."
               : "Book Now"
+          } */}
+
+          {
+            loading
+              ? "Loading..."
+              : bookingLoading
+                ? "Booking..."
+                : "Book Now"
           }
 
         </button>

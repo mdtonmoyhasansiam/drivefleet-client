@@ -332,7 +332,7 @@ const Navbar = () => {
                   "
                   >
                     {
-                      user?.displayName
+                      user?.name
                     }
                   </span>
 

@@ -3,9 +3,11 @@
 import {
   createContext,
   useContext,
-  useEffect,
-  useState,
 } from "react";
+
+import {
+  authClient,
+} from "@/lib/auth-client";
 
 export const AuthContext =
   createContext();
@@ -14,61 +16,25 @@ export const AuthProvider = ({
   children,
 }) => {
 
-  const [user, setUser] =
-    useState(null);
+  const {
+    data: session,
+    isPending: loading,
+  } = authClient.useSession();
 
-  const [loading, setLoading] =
-    useState(true);
+  const user =
+    session?.user || null;
 
-  useEffect(() => {
+  const logoutUser =
+    async () => {
 
-    const token =
-      localStorage.getItem(
-        "access-token"
-      );
-
-    if (token) {
-
-      try {
-
-        const payload =
-          JSON.parse(
-            atob(
-              token.split(".")[1]
-            )
-          );
-
-        setUser(payload);
-
-      } catch (error) {
-
-        console.log(error);
-
-        localStorage.removeItem(
-          "access-token"
-        );
-      }
-    }
-
-    setLoading(false);
-
-  }, []);
-
-  const logoutUser = () => {
-
-    localStorage.removeItem(
-      "access-token"
-    );
-
-    setUser(null);
-  };
+      await authClient.signOut();
+    };
 
   return (
 
     <AuthContext.Provider
       value={{
         user,
-        setUser,
         loading,
         logoutUser,
       }}

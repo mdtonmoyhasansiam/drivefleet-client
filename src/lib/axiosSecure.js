@@ -4,31 +4,32 @@ const axiosSecure =
   axios.create({
     baseURL:
       "https://drivefleet-server-zqxb.onrender.com",
+      // "http://localhost:5000",
   });
 
-axiosSecure.interceptors.request.use(
-  config => {
+// axiosSecure.interceptors.request.use(
+//   config => {
 
-    const token =
-      localStorage.getItem(
-        "access-token"
-      );
+//     const token =
+//       localStorage.getItem(
+//         "access-token"
+//       );
 
-    if (token) {
+//     if (token) {
 
-      config.headers.Authorization =
-        `Bearer ${token}`;
-    }
+//       config.headers.Authorization =
+//         `Bearer ${token}`;
+//     }
 
-    return config;
-  },
+//     return config;
+//   },
 
-  error => {
+//   error => {
 
-    return Promise.reject(
-      error
-    );
-  }
-);
+//     return Promise.reject(
+//       error
+//     );
+//   }
+// );
 
 export default axiosSecure;
