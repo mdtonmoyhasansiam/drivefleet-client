@@ -79,7 +79,7 @@ const LoginPage = () => {
               "google",
 
             callbackURL:
-              "/",
+              "https://drivefleet-rouge.vercel.app/",
           }
         );
       } catch (error) {
